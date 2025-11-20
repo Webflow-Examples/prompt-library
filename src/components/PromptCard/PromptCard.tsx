@@ -29,7 +29,7 @@ export function PromptCard({ prompt, className }: PromptCardProps) {
   return (
     <a
       href={prompt.href}
-      target="_blank"
+      target="_top"
       rel="noopener noreferrer"
       className={cn(
         "group relative flex flex-col rounded-[8px] bg-white p-5 pb-[60px] text-left shadow-[0_2px_4px_rgba(0,0,0,0.1)] transition-all duration-300 ease-in-out cursor-pointer no-underline border border-[#D8D8D8]",
