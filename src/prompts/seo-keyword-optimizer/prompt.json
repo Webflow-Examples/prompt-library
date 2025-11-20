@@ -1,0 +1,19 @@
+{
+  "id": "keyword-optimizer",
+  "icon": "https://dhygzobemt712.cloudfront.net/Icons/Light/48px/SEO.svg",
+  "description": "Review static pages and CMS items, then update copy, meta titles, and descriptions to align with keyword optimization goals.",
+  "tags": ["webflow", "seo", "keywords", "content", "metadata", "optimization"],
+  "href": "/mcp/prompts/keyword-optimizer",
+  "variables": {
+    "keywordGoals": {
+      "type": "textarea",
+      "label": "Keyword Optimization Goals",
+      "placeholder": "Describe your keyword optimization goals...",
+      "default": "Primary keyword: 'web design services' - Target this in homepage and service pages. Secondary keywords: 'responsive web design', 'custom websites', 'San Francisco web design' - Integrate naturally into page content. Focus on local SEO for 'San Francisco' area. Emphasize benefits like 'fast loading', 'mobile-friendly', and 'SEO-optimized' throughout copy.",
+      "description": "Describe your keyword optimization goals, including primary keywords, secondary keywords, target audience, and any specific SEO objectives. Be specific about which keywords should appear where and how they should be integrated.",
+      "required": true
+    }
+  },
+  "metadata": {},
+  "contentFile": null
+}

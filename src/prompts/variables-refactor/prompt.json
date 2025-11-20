@@ -1,0 +1,17 @@
+{
+  "id": "variables-refactor",
+  "icon": "https://dhygzobemt712.cloudfront.net/Icons/Light/48px/Variable.svg",
+  "description": "Find all hardcoded colors, spacing, and font values, then convert them to a design system using variables.",
+  "tags": [
+    "webflow",
+    "designer",
+    "variables",
+    "refactor",
+    "styles",
+    "automation"
+  ],
+  "href": "/mcp/prompts/variables-refactor",
+  "variables": {},
+  "metadata": {},
+  "contentFile": "webflow-variables-refactor.md"
+}

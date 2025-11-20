@@ -1,0 +1,152 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { CodeBlock } from '../../components/CodeBlock/CodeBlock';
+import { PromptActions } from '../../components/PromptActions/PromptActions';
+import { PromptWithVariables } from '../../components/PromptWithVariables/PromptWithVariables';
+import { formatPromptForChat } from '../../lib/promptFormatter';
+import fs from 'fs';
+import path from 'path';
+
+export async function getStaticPaths() {
+  // Get all prompt directories
+  const promptsDir = path.join(process.cwd(), 'src/prompts');
+  const promptDirs = fs.readdirSync(promptsDir, { withFileTypes: true })
+    .filter(dirent => dirent.isDirectory())
+    .map(dirent => dirent.name);
+
+  return promptDirs.map((dir) => {
+    // Load prompt.json to get the actual ID
+    const promptJsonPath = path.join(promptsDir, dir, 'prompt.json');
+    if (fs.existsSync(promptJsonPath)) {
+      const promptJson = JSON.parse(fs.readFileSync(promptJsonPath, 'utf-8'));
+      return {
+        params: { id: promptJson.id },
+        props: { promptId: promptJson.id, promptDir: dir }
+      };
+    }
+    return {
+      params: { id: dir },
+      props: { promptId: dir, promptDir: dir }
+    };
+  });
+}
+
+const { id } = Astro.params;
+const { promptId, promptDir } = Astro.props;
+
+// Load prompt data
+const promptsDir = path.join(process.cwd(), 'src/prompts');
+const promptJsonPath = path.join(promptsDir, promptDir, 'prompt.json');
+const promptYmlPath = path.join(promptsDir, promptDir, 'prompt.yml');
+
+if (!fs.existsSync(promptJsonPath) || !fs.existsSync(promptYmlPath)) {
+  return Astro.redirect('/404');
+}
+
+const promptJson = JSON.parse(fs.readFileSync(promptJsonPath, 'utf-8'));
+const promptYml = fs.readFileSync(promptYmlPath, 'utf-8');
+
+// Check if prompt has variables
+const hasVariables = promptJson.variables && Object.keys(promptJson.variables).length > 0;
+
+// Format prompt for display (only if no variables, otherwise handled by component)
+const formattedPrompt = hasVariables ? '' : formatPromptForChat(promptYml);
+
+// Extract title from id (convert kebab-case to Title Case)
+const getTitle = (id: string) => {
+  return id
+    .split("-")
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(" ");
+};
+
+const title = getTitle(promptJson.id);
+---
+
+<Layout>
+  <div class="min-h-screen bg-[#fafafa] py-8 px-4">
+    <div class="max-w-4xl mx-auto">
+      {/* Back Button */}
+      <a
+        href="/"
+        class="inline-flex items-center gap-2 text-[#555] hover:text-[#146ef5] transition-colors mb-6 text-sm"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="16"
+          height="16"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path d="m12 19-7-7 7-7" />
+          <path d="M19 12H5" />
+        </svg>
+        Back to prompts
+      </a>
+
+      {/* Prompt Header */}
+      <div class="bg-white rounded-[8px] shadow-[0_2px_4px_rgba(0,0,0,0.1)] border border-[#D8D8D8] p-6 mb-6">
+        <div class="flex items-center gap-4 mb-4">
+          {promptJson.icon && (
+            <img
+              src={promptJson.icon}
+              alt=""
+              class="w-12 h-12"
+              loading="lazy"
+            />
+          )}
+          <h1 class="text-3xl font-semibold text-[#333] m-0">{title}</h1>
+        </div>
+
+        <p class="text-base leading-relaxed text-[#555] mb-4">
+          {promptJson.description}
+        </p>
+
+        {promptJson.tags && promptJson.tags.length > 0 && (
+          <div class="flex flex-wrap gap-2">
+            {promptJson.tags.map((tag: string) => (
+              <span
+                class="px-3 py-1 rounded-full text-xs font-medium bg-[#f5f5f5] text-[#555] border border-[#D8D8D8]"
+              >
+                {tag}
+              </span>
+            ))}
+          </div>
+        )}
+      </div>
+
+      {/* Prompt Content with Variables */}
+      {hasVariables ? (
+        <PromptWithVariables 
+          yamlContent={promptYml} 
+          variables={promptJson.variables} 
+          client:load 
+        />
+      ) : (
+        <>
+          {/* Prompt Actions */}
+          <div class="mb-6">
+            <PromptActions promptText={formattedPrompt} client:load />
+          </div>
+
+          {/* Prompt Content */}
+          <div class="bg-white rounded-[8px] shadow-[0_2px_4px_rgba(0,0,0,0.1)] border border-[#D8D8D8] p-6">
+            <h2 class="text-xl font-semibold text-[#333] mb-4">Prompt</h2>
+            <CodeBlock code={formattedPrompt} language="text" client:load />
+          </div>
+        </>
+      )}
+    </div>
+  </div>
+</Layout>
+
+<style>
+  :global(body) {
+    margin: 0;
+  }
+</style>
+

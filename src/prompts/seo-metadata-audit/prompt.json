@@ -1,0 +1,10 @@
+{
+  "id": "SEO-metadata-auditor",
+  "description": "Check all pages for missing or weak SEO metadata, get suggestions on improvments, and make all changes with user approval.",
+  "icon": "https://dhygzobemt712.cloudfront.net/Icons/Light/48px/SEO.svg",
+  "tags": ["webflow", "seo", "mcp", "audit", "metadata", "pages"],
+  "href": "/mcp/prompts/SEO-metadata-auditor",
+  "variables": {},
+  "metadata": {},
+  "contentFile": "webflow-seo-metadata-auditor.md"
+}

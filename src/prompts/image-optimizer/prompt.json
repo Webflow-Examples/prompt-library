@@ -1,0 +1,17 @@
+{
+  "id": "image-optimizer",
+  "icon": "https://dhygzobemt712.cloudfront.net/Icons/Light/48px/Image.svg",
+  "description": "Verify that all images are under 500 KB and properly compressed/formatted. Automatically compress oversized images using an image compression MCP server.",
+  "tags": [
+    "webflow",
+    "images",
+    "optimization",
+    "compression",
+    "performance",
+    "assets"
+  ],
+  "href": "/mcp/prompts/image-optimizer",
+  "variables": {},
+  "metadata": {},
+  "contentFile": null
+}
