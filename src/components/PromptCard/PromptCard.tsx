@@ -26,9 +26,48 @@ export function PromptCard({ prompt, className }: PromptCardProps) {
       .join(" ");
   };
 
+  // Handle click to break out of iframe with correct URL
+  const handleClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    // Only handle if we're in an iframe
+    if (window.top && window.top !== window.self) {
+      // If href is already absolute, use it as-is
+      if (prompt.href.startsWith("http")) {
+        e.preventDefault();
+        window.top.location.href = prompt.href;
+        return;
+      }
+
+      // For relative URLs, try to get parent window's origin
+      try {
+        // Try to access parent origin (works if same-origin)
+        const parentOrigin = window.top.location.origin;
+        const absoluteHref = `${parentOrigin}${prompt.href}`;
+        e.preventDefault();
+        window.top.location.href = absoluteHref;
+      } catch (error) {
+        // Cross-origin: can't access parent origin directly
+        // Fallback: use document.referrer to get parent URL
+        if (document.referrer) {
+          try {
+            const referrerUrl = new URL(document.referrer);
+            const absoluteHref = `${referrerUrl.origin}${prompt.href}`;
+            e.preventDefault();
+            window.top.location.href = absoluteHref;
+          } catch {
+            // If referrer parsing fails, let target="_top" handle it
+            // (relative URL will resolve relative to parent's origin)
+          }
+        }
+        // If all else fails, target="_top" will handle it
+      }
+    }
+    // If not in iframe, let default behavior handle it
+  };
+
   return (
     <a
       href={prompt.href}
+      onClick={handleClick}
       target="_top"
       rel="noopener noreferrer"
       className={cn(
