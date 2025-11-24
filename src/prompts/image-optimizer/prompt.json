@@ -3,6 +3,7 @@
   "icon": "https://dhygzobemt712.cloudfront.net/Icons/Light/48px/Image.svg",
   "description": "Verify that all images are under 500 KB and properly compressed/formatted. Automatically compress oversized images using an image compression MCP server.",
   "tags": [
+    "mcp",
     "webflow",
     "images",
     "optimization",

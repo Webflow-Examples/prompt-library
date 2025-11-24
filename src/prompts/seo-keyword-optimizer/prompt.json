@@ -2,7 +2,7 @@
   "id": "keyword-optimizer",
   "icon": "https://dhygzobemt712.cloudfront.net/Icons/Light/48px/SEO.svg",
   "description": "Review static pages and CMS items, then update copy, meta titles, and descriptions to align with keyword optimization goals.",
-  "tags": ["webflow", "seo", "keywords", "content", "metadata", "optimization"],
+  "tags": ["designer", "webflow", "seo", "keywords", "content", "metadata", "optimization"],
   "href": "/mcp/prompts/keyword-optimizer",
   "variables": {
     "keywordGoals": {
