@@ -1,6 +1,7 @@
 {
-  "name": "Breakpoint Styles Updater",
-  "description": "Systematically update CSS styles across all Webflow breakpoints (desktop, tablet, mobile) to ensure responsive design consistency.",
+  "id": "Breakpoint Styles Updater",
+  "description": "Systematically update CSS styles across all Webflow breakpoints to ensure responsive design consistency.",
+  "icon": "https://dhygzobemt712.cloudfront.net/Icons/Light/48px/Responsive.svg",
   "category": "design",
   "tags": ["responsive", "breakpoints", "mobile", "css", "styles"],
   "requires_designer": true,

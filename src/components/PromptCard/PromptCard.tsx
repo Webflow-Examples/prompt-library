@@ -20,7 +20,9 @@ interface PromptCardProps {
 export function PromptCard({ prompt, className }: PromptCardProps) {
   // Extract title from id (convert kebab-case to Sentence case, preserving acronyms)
   const getTitle = (id: string) => {
-    const acronyms = ['SEO', 'CMS', 'API', 'URL', 'HTML', 'CSS', 'JS'];
+    if (!id) return '';
+
+    const acronyms = ['SEO', 'CMS', 'API', 'URL', 'HTML', 'CSS', 'JS', 'MCP'];
     const words = id.split("-");
 
     const title = words.map((word, index) => {
