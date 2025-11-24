@@ -4,6 +4,7 @@
   "description": "Rescue design work done on the wrong breakpoint by copying or moving styles to the correct breakpoint.",
   "tags": [
     "webflow",
+    "designer",
     "breakpoints",
     "responsive",
     "styles",

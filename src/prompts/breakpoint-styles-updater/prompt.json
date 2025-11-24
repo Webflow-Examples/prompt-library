@@ -3,7 +3,7 @@
   "description": "Systematically update CSS styles across all Webflow breakpoints to ensure responsive design consistency.",
   "icon": "https://dhygzobemt712.cloudfront.net/Icons/Light/48px/Responsive.svg",
   "category": "design",
-  "tags": ["responsive", "breakpoints", "mobile", "css", "styles"],
+  "tags": ["responsive", "designer", "breakpoints", "mobile", "css", "styles"],
   "requires_designer": true,
   "difficulty": "intermediate"
 }
