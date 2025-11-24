@@ -1,0 +1,8 @@
+{
+  "name": "Breakpoint Styles Updater",
+  "description": "Systematically update CSS styles across all Webflow breakpoints (desktop, tablet, mobile) to ensure responsive design consistency.",
+  "category": "design",
+  "tags": ["responsive", "breakpoints", "mobile", "css", "styles"],
+  "requires_designer": true,
+  "difficulty": "intermediate"
+}

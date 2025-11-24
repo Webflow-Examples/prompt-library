@@ -7,27 +7,36 @@ context:
     {{keywordGoals}}
 
     The updates should improve SEO performance while maintaining or enhancing the user experience. All changes should feel natural and provide value to readers.
+  prerequisites:
+    - Webflow MCP server must be properly configured and authenticated
+    - For static page content updates, Webflow Designer must be open with the MCP Companion App active
+    - User must have edit permissions for the target site
+    - Ensure sufficient API rate limits for large sites with many pages or items
 task:
   - Discover and select the target Webflow site.
+  - Optionally analyze 2-3 competitor pages to establish benchmarks and identify content gaps.
   - Review all static pages and CMS collection items.
   - For each static page, analyze:
-      - Current page copy and content
-      - Meta title and description
-      - Keyword density and placement
-      - Content relevance to target keywords
+      - Current page copy and content with quality scoring (readability, depth, E-E-A-T signals)
+      - Meta title and description effectiveness
+      - Keyword density, placement, and semantic relevance
+      - Content structure and organization
+      - Competitive positioning (if competitors analyzed)
   - For each CMS collection item, analyze:
-      - Current item content (including rich text fields)
+      - Current item content (including rich text fields) with quality metrics
       - Meta title and description (if available in collection schema)
       - Keyword density and placement
       - Content relevance to target keywords
   - Identify optimization opportunities based on the keyword goals provided.
   - Propose specific updates for each page and CMS item including:
-      - Revised meta titles (50-60 characters, include primary keyword)
-      - Revised meta descriptions (150-160 characters, include primary keyword and CTA)
-      - Suggested copy updates to better integrate target keywords naturally
-  - Present a summary of proposed changes for user approval.
-  - Upon approval, apply the updates using Webflow MCP tools.
-  - Provide a final report showing before/after comparisons.
+      - Revised meta titles with 3 A/B test variations for high-priority pages (50-60 characters, include primary keyword)
+      - Revised meta descriptions with 3 A/B test variations (150-160 characters, include primary keyword and CTA)
+      - Suggested copy updates to better integrate target keywords naturally and improve readability scores
+      - Content expansion recommendations to match or exceed competitive benchmarks
+      - Structural improvements for better scannability and user experience
+  - Present a comprehensive proposal with content quality metrics, competitive analysis, and A/B test variations.
+  - Upon user approval and variation selection, apply the updates using Webflow MCP tools.
+  - Provide a detailed final report with before/after metrics, competitive positioning, and actionable next steps.
 instructions:
   operating_principles:
     - Always get user approval before making any changes (apply_changes=true).
@@ -37,6 +46,7 @@ instructions:
     - Meta descriptions should be persuasive, include keywords, and have a clear call-to-action.
     - Maintain brand voice and tone throughout all updates.
     - Focus on pages that will have the most SEO impact (homepage, main service pages, etc.).
+    - Process large sites in manageable batches to maintain user engagement.
   keyword_integration_guidelines:
     - Primary keywords should appear in:
         - Meta title (preferably in first 30 characters)
@@ -53,28 +63,156 @@ instructions:
     - Maintain readability and flow.
     - Ensure content answers user intent for target keywords.
     - Keep brand voice consistent across all pages.
+  content_quality_analysis:
+    - "**Readability Scoring**: Calculate and report readability metrics for all content:"
+    - "  - Flesch Reading Ease: Score = 206.835 - 1.015(total words/total sentences) - 84.6(total syllables/total words). Target: 60-70 (8th-9th grade)"
+    - "  - Flesch-Kincaid Grade Level: Grade = 0.39(total words/total sentences) + 11.8(total syllables/total words) - 15.59. Target: 7-9"
+    - "  - Average sentence length: Count words per sentence. Target: 15-20 words"
+    - "  - Average word length: Count syllables per word. Target: 1.5-2 syllables"
+    - "**Content Depth Analysis**: Evaluate comprehensiveness:"
+    - "  - Word count: Compare to industry standards (blog: 1500-2500, landing page: 500-1000, product: 300-500)"
+    - "  - Heading structure: Check for proper H1-H6 hierarchy, aim for H2 every 300-400 words"
+    - "  - Content completeness: Does it answer common questions about the topic?"
+    - "  - Multimedia elements: Note presence of images, videos, lists, tables"
+    - "**E-E-A-T Signals**: Identify expertise and authority indicators:"
+    - "  - Author credentials mentioned"
+    - "  - Citations, references, or data sources"
+    - "  - Original research, case studies, or examples"
+    - "  - Date stamps showing content freshness"
+    - "  - Trust signals (testimonials, certifications, contact info)"
+    - "**Keyword Analysis**: Calculate current keyword metrics:"
+    - "  - Primary keyword frequency and density percentage"
+    - "  - Keyword placement (title, first 100 words, headings, conclusion)"
+    - "  - Related keyword variations and semantic relevance"
+    - "  - LSI (Latent Semantic Indexing) keywords present"
+    - "**Content Structure Score**: Evaluate organization:"
+    - "  - Clear introduction with keyword (first 100 words)"
+    - "  - Logical flow with descriptive subheadings"
+    - "  - Scannable format (short paragraphs, bullet points, bold text)"
+    - "  - Strong conclusion with CTA"
+    - "Report all metrics in proposal with before/after comparisons showing improvements."
+  competitive_analysis:
+    - "**Identify Competitors**: Ask user for 2-3 competitor URLs ranking for target keywords, or infer from keyword context."
+    - "**Fetch Competitor Content**: Use web fetch to retrieve competitor pages for analysis."
+    - "**Analyze Competitor Pages**: For each competitor, extract and compare:"
+    - "  - Meta title and description (length, keyword usage, CTA)"
+    - "  - Content length (word count)"
+    - "  - Heading structure (number and hierarchy of headings)"
+    - "  - Keyword usage (frequency and placement)"
+    - "  - Content depth (topics covered, sections included)"
+    - "  - Readability level"
+    - "  - Multimedia elements (images, videos mentioned)"
+    - "  - Unique angles or approaches they take"
+    - "**Identify Content Gaps**: Compare user's content to competitors:"
+    - "  - Topics competitors cover that user doesn't"
+    - "  - Keywords competitors rank for that user could target"
+    - "  - Content formats competitors use (FAQs, comparisons, how-tos)"
+    - "  - Depth of coverage (word count, detail level)"
+    - "**Generate Competitive Insights**: In the proposal, include:"
+    - "  - Competitive benchmark table showing key metrics comparison"
+    - "  - Specific recommendations to match or exceed competitor quality"
+    - "  - Unique value propositions to differentiate from competitors"
+    - "  - Content gap opportunities to target"
+    - "Note: This analysis is based on publicly available content only. Cannot access actual rankings, traffic, or backlink data without SEO tools."
+  ab_testing_strategy:
+    - "**Generate Multiple Variations**: For high-priority pages, create 2-3 alternative versions of key elements:"
+    - "  - Meta titles: Generate 3 variations with different keyword placement, emotional hooks, or benefit statements"
+    - "  - Meta descriptions: Generate 3 variations with different CTAs, value props, or urgency triggers"
+    - "  - H1 headlines: Generate 2-3 variations with different angles or emotional appeals"
+    - "  - Opening paragraphs: Generate 2 variations with different hooks or approaches"
+    - "**Variation Guidelines**: Ensure each variation:"
+    - "  - Includes the primary keyword naturally"
+    - "  - Tests a different hypothesis (e.g., emotional vs. rational, short vs. detailed, question vs. statement)"
+    - "  - Maintains brand voice and quality standards"
+    - "  - Stays within character limits for meta tags"
+    - "**Present A/B Test Options**: In the proposal, clearly label variations:"
+    - "  - Version A (Current): [existing content]"
+    - "  - Version B (Keyword-focused): [variation emphasizing keywords]"
+    - "  - Version C (Benefit-driven): [variation emphasizing user benefits]"
+    - "**Testing Recommendations**: Include guidance on:"
+    - "  - Which variation to implement first (recommend most balanced/proven approach)"
+    - "  - How to test alternatives in the future (manual rotation, if user has A/B testing tools)"
+    - "  - What metrics to monitor (CTR for meta descriptions, time on page for content)"
+    - "Note: Implementation applies user's selected variation. Alternative variations are documented for future testing."
+  pagination_strategy:
+    - For sites with many pages, process in batches of 10-20 pages at a time.
+    - For collections with many items, use limit=100 and paginate through results.
+    - Present incremental progress updates to user to maintain engagement.
+    - Consider prioritizing high-traffic pages first based on analytics if available.
+  update_strategy:
+    - For CMS items, default to `collections_items_update_items_live` for immediate publishing.
+    - Alternative option, use `collections_items_update_items` for draft updates, then `collections_items_publish_items` after user reviews changes.
+    - For static pages, changes via Designer tools are immediate in the editor but require manual site publish to go live.
+    - Recommend users review changes in Webflow Designer preview before publishing site.
+  error_handling:
+    - If Designer tools fail, verify the MCP Companion App is open in Webflow Designer and prompt user to open it.
+    - If element selection fails, use `getAllElements` action to verify the element ID exists and is accessible.
+    - If pagination is needed, use appropriate limit and offset parameters.
+    - If a field cannot be updated (readonly, permissions), document the limitation and proceed with other updates.
+    - If rate limits are hit, pause and resume after appropriate delay.
+    - Always provide clear error messages and recovery suggestions to the user.
   tool_flow:
-    - "1. **Discovery**: Use `mcp_webflow_sites_list` to let the user select a site."
-    - "2. **Page Inventory**: Use `mcp_webflow_pages_list` to get all static pages."
-    - "3. **CMS Inventory**: Use `mcp_webflow_collections_list` to get all CMS collections, then use `mcp_webflow_collections_items_list_items` for each collection to get all items."
-    - "4. **Static Page Analysis**: For each static page:"
-    - "  - Use `mcp_webflow_pages_get_content` to review current content"
-    - "  - Use `mcp_webflow_pages_get_metadata` to review current SEO metadata"
-    - "  - Analyze keyword opportunities based on the provided goals"
-    - "5. **CMS Item Analysis**: For each CMS collection item:"
+    - "1. **Discovery**: Use `sites_list` to let the user select a site."
+    - "2. **Competitive Research** (Optional but recommended):"
+    - "  - Ask user for 2-3 competitor URLs currently ranking for the target keywords"
+    - "  - Use web fetch to retrieve and analyze competitor pages"
+    - "  - Extract competitor meta tags, content structure, word count, and keyword usage"
+    - "  - Document competitive benchmarks for comparison"
+    - "3. **Page Inventory**: Use `pages_list` to get all static pages (supports pagination with limit/offset)."
+    - "4. **CMS Inventory**: Use `collections_list` to get all CMS collections, then use `collections_items_list_items` for each collection to get all items."
+    - "5. **Static Page Analysis**: For each static page:"
+    - "  - Use `pages_get_content` to review current content structure and obtain element IDs"
+    - "  - Use `pages_get_metadata` to review current SEO metadata"
+    - "  - **Content Quality Analysis**: Calculate readability scores (Flesch Reading Ease, Flesch-Kincaid Grade Level)"
+    - "  - **Content Depth Analysis**: Evaluate word count, heading structure, content completeness"
+    - "  - **E-E-A-T Analysis**: Identify expertise signals, citations, trust indicators"
+    - "  - **Keyword Analysis**: Calculate keyword density, placement, and semantic relevance"
+    - "  - **Structure Analysis**: Evaluate content organization and scannability"
+    - "  - Analyze keyword opportunities based on the provided goals and competitive benchmarks"
+    - "6. **CMS Item Analysis**: For each CMS collection item:"
     - "  - Review item field data (especially rich text fields) for content analysis"
-    - "  - Check if collection has SEO fields (meta title, description) via collection schema"
+    - "  - Use `collections_get` to check collection schema for SEO fields (meta title, description)"
+    - "  - Apply same content quality analysis as static pages"
     - "  - Analyze keyword opportunities based on the provided goals"
-    - "6. **Proposal Creation**: Create a detailed proposal with:"
-    - "  - Page-by-page and item-by-item analysis"
-    - "  - Specific copy suggestions"
-    - "  - Meta title and description recommendations"
-    - "  - Rationale for each change"
-    - "7. **User Approval**: Present the proposal and wait for approval."
-    - "8. **Implementation**: Upon approval:"
+    - "7. **Proposal Creation**: Create a detailed proposal with:"
+    - "  - **Executive Summary**: Overall content health and opportunity score"
+    - "  - **Competitive Benchmark Table**: Compare user's site to competitors (if analyzed)"
+    - "  - **Page-by-Page Analysis**: For each page/item:"
+    - "    - Current content quality scores (readability, depth, E-E-A-T, keyword metrics)"
+    - "    - Specific issues identified (e.g., low readability, missing keywords, thin content)"
+    - "    - Proposed improvements with rationale"
+    - "  - **Content Recommendations**: Specific copy suggestions with element IDs for static pages"
+    - "  - **A/B Test Variations**: 2-3 variations for meta titles, descriptions, and headlines on high-priority pages"
+    - "  - **Priority Ranking**: Order recommendations by expected SEO impact"
+    - "  - **Content Gaps**: Opportunities identified from competitive analysis"
+    - "  - **Expected Outcomes**: Projected improvements in readability, keyword optimization, and search visibility"
+    - "8. **User Approval**: Present the proposal and wait for explicit approval. For A/B test variations, let user select preferred version."
+    - "9. **Implementation**: Upon approval:"
     - "  - **Static Pages**:"
-    - "    - Use `mcp_webflow_pages_update_page_settings` to update meta titles and descriptions"
-    - "    - For page copy updates: Use `mcp_webflow_de_page_tool` with `switch_page` to navigate to the target page, then use `mcp_webflow_element_tool` with `select_element` and `set_text` actions to update content via node IDs (static content can only be updated via Designer tools, not the Data API)"
+    - "    - Use `pages_update_page_settings` to update meta titles and descriptions"
+    - "    - For page copy updates (requires Webflow Designer with MCP Companion App open):"
+    - "      1. Use `de_page_tool` with `switchPage` action to navigate to the target page"
+    - "      2. Use `element_tool` with `getAllElements` action to confirm element structure (optional verification step)"
+    - "      3. Use `element_tool` with `selectElement` action to select text elements by their node IDs (obtained from `pages_get_content`)"
+    - "      4. Use `element_tool` with `setText` action to update content"
+    - "      5. Verify element supports text content before attempting update"
     - "  - **CMS Items**:"
-    - "    - Use `mcp_webflow_collections_items_update_items_live` to update CMS item fields including rich text content and SEO metadata (CMS rich text fields can be updated via the Data API)"
-    - "9. **Reporting**: Provide a summary report with before/after comparisons and expected SEO impact."
+    - "    - For immediate publishing: Use `collections_items_update_items_live` to update CMS item fields including rich text content and SEO metadata"
+    - "    - For draft workflow: Use `collections_items_update_items` for draft updates, then `collections_items_publish_items` after user review"
+    - "10. **Final Reporting**: Provide a comprehensive summary report with:"
+    - "  - **Before/After Metrics Table**: Show improvements in all quality scores:"
+    - "    - Readability scores (Flesch Reading Ease, Grade Level)"
+    - "    - Content depth metrics (word count, heading count)"
+    - "    - Keyword density and placement improvements"
+    - "    - E-E-A-T signals added"
+    - "  - **Competitive Position**: How the site now compares to competitors (if analyzed)"
+    - "  - **Changes Summary**: List of all updates made (pages updated, elements changed, meta tags optimized)"
+    - "  - **Unused Variations**: Document alternative A/B test variations for future testing"
+    - "  - **SEO Impact Projection**: Expected improvements and timeline (typically 4-12 weeks for results)"
+    - "  - **Next Steps Recommendations**:"
+    - "    - Monitor keyword rankings weekly"
+    - "    - Track organic traffic changes"
+    - "    - Consider implementing unused A/B test variations to test performance"
+    - "    - Address any content gaps identified in competitive analysis"
+    - "    - Build backlinks to optimized pages"
+    - "    - Keep content fresh with regular updates"

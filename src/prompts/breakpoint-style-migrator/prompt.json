@@ -1,0 +1,19 @@
+{
+  "id": "breakpoint-style-migrator",
+  "icon": "https://dhygzobemt712.cloudfront.net/Icons/Light/48px/Responsive.svg",
+  "description": "Rescue design work done on the wrong breakpoint by copying or moving styles to the correct breakpoint. Recovers hours of accidental work instead of starting over.",
+  "tags": [
+    "webflow",
+    "breakpoints",
+    "responsive",
+    "styles",
+    "recovery",
+    "migration",
+    "rescue",
+    "css"
+  ],
+  "href": "/mcp/prompts/breakpoint-style-migrator",
+  "variables": {},
+  "metadata": {},
+  "contentFile": null
+}
