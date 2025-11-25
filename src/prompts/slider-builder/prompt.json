@@ -1,8 +1,16 @@
 {
-  "id": "webflow-slider-builder",
-  "icon": "https://cdn.prod.website-files.com/6500a0cf7e7797529ff485f9/6630f2cd45b4d97c8cfd092d_carousel-horizontal-2.svg",
+  "id": "Slider-builder",
+  "icon": "https://dhygzobemt712.cloudfront.net/Icons/Light/48px/Image.svg",
   "description": "Build interactive image sliders/carousels using Swiper.js and Webflow Designer API with proper library loading and initialization",
-  "tags": ["designer", "slider", "carousel", "swiper", "dom-elements", "custom-code", "javascript"],
+  "tags": [
+    "designer",
+    "slider",
+    "carousel",
+    "swiper",
+    "dom-elements",
+    "custom-code",
+    "javascript"
+  ],
   "href": "https://docs.developers.webflow.com/designer-api/overview",
   "variables": {
     "siteId": {
@@ -30,6 +38,10 @@
   "metadata": {
     "difficulty": "advanced",
     "estimatedTime": "15-20 minutes",
-    "prerequisites": ["Webflow Designer must be open", "Understanding of JavaScript", "Familiarity with DOM manipulation"]
+    "prerequisites": [
+      "Webflow Designer must be open",
+      "Understanding of JavaScript",
+      "Familiarity with DOM manipulation"
+    ]
   }
 }
