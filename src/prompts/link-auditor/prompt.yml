@@ -9,7 +9,7 @@ prerequisites:
     - User must have Webflow Designer app running for page content updates
     - Site must be accessible with appropriate permissions (read access for auditing, write access for fixing)
   verification:
-    - "Before starting, verify MCP tools are available by running: mcp__webflow__sites_list"
+    - "Before starting, verify MCP tools are available by running: sites_list"
     - "If tools are not available, inform the user: 'Please ensure the Webflow MCP server is configured and connected to Claude.'"
 task:
   - Discover and select the target site.
@@ -20,13 +20,21 @@ task:
   - Upon user approval, execute the fixes.
   - Provide a final report summarizing the changes.
 instructions:
+  prerequisites:
+    - Webflow MCP server must be properly configured and authenticated
+    - For static page content updates, Webflow Designer must be open with the MCP Companion App active
+    - User must have edit permissions for the target site
+    - For large sites, consider pagination limits (pages and items are limited to 100 results per request)
   operating_principles:
     - User approval is required before any changes are made (`apply_changes=true`).
     - The prompt will handle both links on static pages and links within CMS rich text fields.
     - Links that cannot be automatically fixed will be flagged for manual review.
     - For Designer tool operations (page content updates), the Webflow Designer MCP app must be running. If a timeout occurs, inform the user to launch the Designer app.
+    - Deduplicate URLs before validation to avoid redundant checks for the same link appearing multiple times.
+    - For large sites with many pages or CMS items, handle pagination by requesting data in batches of 100 (the API limit).
     - Show progress indicators for large sites (e.g., "Scanning page 15/47...").
     - For sites with 100+ pages, ask user if they want to continue or limit the scope.
+    - If Designer operations fail, collect failed operations and report them at the end for manual review.
   error_handling:
     mcp_tools_unavailable: "Error: Webflow MCP tools are not available. Please ensure the Webflow MCP server is installed, configured, and connected to Claude."
     designer_app_timeout: "Error: Designer app timeout. Please launch Webflow Designer and try again."
@@ -60,27 +68,33 @@ instructions:
       - "500-599: Server error (flag for manual review)"
       - "Timeout/Network Error: Flag for manual review"
   tool_flow:
-    - 1. **Discovery**: Use `mcp__webflow__sites_list` to let the user select a site.
+    - 1. **Discovery**: Use `sites_list` to retrieve all accessible sites. Let the user select a site and store the `site_id` for all subsequent operations.
     - "2. **Crawling and Link Extraction (Read Phase - Data API)**:"
-    - "  - **Pages**: Get all pages with `mcp__webflow__pages_list`. For each page, get its content using `mcp__webflow__pages_get_content`. Parse the content to find all link elements, their URLs, and their unique node IDs. Store the mapping: `{pageId, nodeId, url, linkText}` for each link found. Note: Links may appear as `type: 'text'` nodes with HTML containing `<a>` tags, or as `type: 'Link'` elements. The node `id` field from the Data API can be used directly in Designer tools."
-    - "  - **CMS**: Get all collections with `mcp__webflow__collections_list`. For each collection, get all items using `mcp__webflow__collections_items_list_items`. For each item, iterate through its fields and parse any rich text content to find links."
+    - "  - **Pages**: Get all pages with `pages_list` (requires `site_id` parameter from step 1). For each page, get its content using `pages_get_content` (requires `page_id` parameter). Parse the content to find all link elements, their URLs, and their unique node IDs. Store the mapping: `{pageId, nodeId, url, linkText}` for each link found. Note: Links may appear as `type: 'text'` nodes with HTML containing `<a>` tags, or as `type: 'Link'` elements. The node `id` field from the Data API can be used directly in Designer tools as the `element` ID."
+    - "  - **CMS**: Get all collections with `collections_list` (requires `site_id` parameter). For each collection, get all items using `collections_items_list_items` (requires `collection_id` parameter). For each item, iterate through its fields and parse any rich text content to find links. Store the mapping: `{collectionId, itemId, fieldName, url, linkText}` for each link found."
     - 3. **Validation**:
-        - For each unique link found, make a network request to check its status.
-        - If a link returns a 4xx or 5xx status code, it's "broken" and flagged for manual review.
-        - If a link starts with `http://`, try the `https://` version. If the HTTPS version works, the link is "insecure" and a fix will be proposed. If the HTTPS version fails, it is flagged for manual review.
+        - Deduplicate the list of URLs found to avoid checking the same URL multiple times.
+        - For each unique external link, attempt to validate it using web fetch capabilities (if available). If HTTP validation is not available through MCP tools, categorize external links as "needs manual review" and focus validation efforts on internal links.
+        - For internal links, validate against the site's page structure obtained from `pages_list`.
+        - If a link returns a 4xx or 5xx status code (when validation is possible), it's "broken" and flagged for manual review.
+        - If a link starts with `http://`, check if an `https://` version is available. If the HTTPS version works (returns 2xx status), the link is "insecure" and a fix will be proposed to change it to HTTPS. If the HTTPS version fails or cannot be validated, it is flagged for manual review.
     - 4. **Planning (Dry Run)**:
         - Compile a list of all proposed changes (e.g., "On the 'About Us' page, change `http://example.com` to `https://example.com`").
         - Compile a separate list for links that need manual review.
         - Present both lists to the user for approval.
     - "5. **Execution (Write Phase - Designer & Data APIs)**:"
-    - "  - **Pages**: For links on static pages that need fixing:"
-    - "    1. Use `mcp__webflow__de_page_tool` with `switch_page` action to navigate to the target page (use the `pageId` from the crawling phase)."
-    - "    2. Use `mcp__webflow__element_tool` with `select_element` action, passing the ID object: `{component: pageId, element: nodeId}` where `pageId` is the page ID and `nodeId` is the node ID extracted from the Data API."
-    - "    3. Use `mcp__webflow__element_tool` with `set_link` action on the selected element, passing `linkType` (e.g., 'url', 'page', 'email') and `link` (the corrected URL or target)."
-    - "  - **CMS**: For links in CMS items, use `mcp__webflow__collections_items_update_items_live` to update the rich text field with the corrected link."
+    - "  - **Pages**: For links on static pages that need fixing (requires Webflow Designer with MCP Companion App to be running):"
+    - "    1. Group fixes by page to minimize page switching. For each page with fixes:"
+    - "    2. Use `de_page_tool` with `switchPage` action to navigate to the target page. Pass required `siteId` parameter (from step 1) and the page's `id` in the action parameters: `{page_id: pageId}`."
+    - "    3. For each link on that page, use `element_tool` with `selectElement` action, passing required `siteId` and the ID object: `{component: pageId, element: nodeId}` where `pageId` is the page ID and `nodeId` is the element ID from the Data API."
+    - "    4. Use `element_tool` with `setLink` action on the selected element, passing required `siteId`, the ID object `{component: pageId, element: nodeId}`, `linkType` (e.g., 'url', 'page', 'email'), and `link` (the corrected URL or target)."
+    - "    5. If a Designer operation fails, log the error and continue with remaining links. Report failed operations at the end."
+    - "  - **CMS**: For links in CMS items, use `collections_items_update_items_live` (requires `collection_id` parameter) to update the rich text field with the corrected link. Be careful to only modify the link URL within the HTML and preserve all other formatting and content."
     - 6. **Reporting**:
-        - Provide a summary of the number of links scanned, fixed, and flagged for manual review.
-        - Display the final list of links that still need manual attention.
+        - Provide a summary of the number of links scanned, fixed successfully, and flagged for manual review.
+        - Display the final list of links that still need manual attention, including any operations that failed during execution.
+        - If any errors occurred (e.g., Designer app not running, API timeouts, permission issues), include them in the report with suggested remediation steps.
+        - For failed operations, specify which links could not be updated and why, so users can manually complete the fixes.
   dry_run_format: |
     Present proposed changes to the user in this format:
 
