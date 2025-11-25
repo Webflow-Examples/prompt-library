@@ -1,0 +1,35 @@
+{
+  "id": "webflow-slider-builder",
+  "icon": "https://cdn.prod.website-files.com/6500a0cf7e7797529ff485f9/6630f2cd45b4d97c8cfd092d_carousel-horizontal-2.svg",
+  "description": "Build interactive image sliders/carousels using Swiper.js and Webflow Designer API with proper library loading and initialization",
+  "tags": ["designer", "slider", "carousel", "swiper", "dom-elements", "custom-code", "javascript"],
+  "href": "https://docs.developers.webflow.com/designer-api/overview",
+  "variables": {
+    "siteId": {
+      "type": "string",
+      "description": "The Webflow site ID where the slider will be created",
+      "required": true
+    },
+    "pageId": {
+      "type": "string",
+      "description": "The page ID where the slider should be added",
+      "required": false
+    },
+    "imageUrls": {
+      "type": "array",
+      "description": "Array of image URLs to display in the slider (default: Unsplash food images)",
+      "required": false
+    },
+    "styleTheme": {
+      "type": "string",
+      "description": "Visual theme for the slider (e.g., 'neobrutalist', 'minimal', 'modern')",
+      "required": false,
+      "default": "modern"
+    }
+  },
+  "metadata": {
+    "difficulty": "advanced",
+    "estimatedTime": "15-20 minutes",
+    "prerequisites": ["Webflow Designer must be open", "Understanding of JavaScript", "Familiarity with DOM manipulation"]
+  }
+}

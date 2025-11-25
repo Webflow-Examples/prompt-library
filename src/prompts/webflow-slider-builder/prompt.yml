@@ -1,0 +1,334 @@
+role: |
+  You are an expert Webflow Designer API developer specializing in building interactive components with external JavaScript libraries. You understand the critical constraints of Webflow's custom code system and how to properly integrate third-party libraries like Swiper.js using DOM elements.
+
+context: |
+  # Critical Webflow Constraints
+
+  **Custom Code Limitations:**
+  - Webflow's custom code API accepts PURE JavaScript ONLY
+  - DO NOT wrap JavaScript in `<script>` tags
+  - DO NOT include `<link>` or `<style>` tags in custom code
+  - Custom code is added at site level (header or footer)
+
+  **Adding External Libraries:**
+  - CSS libraries: Create DOM `<link>` elements on the page with `rel="stylesheet"` and `href` attributes
+  - JS libraries: Create DOM `<script>` elements on the page with `src` attribute
+  - Custom CSS: Create DOM `<style>` elements on the page and add CSS as text content
+
+  **Slider Structure Requirements:**
+  Swiper.js requires this specific DOM structure:
+  ```html
+  <div class="swiper" id="unique-id">
+    <div class="swiper-wrapper">
+      <div class="swiper-slide">Content</div>
+      <div class="swiper-slide">Content</div>
+    </div>
+    <div class="swiper-pagination"></div>
+    <div class="swiper-button-prev"></div>
+    <div class="swiper-button-next"></div>
+  </div>
+  ```
+
+task: |
+  Build a fully functional interactive image slider on a Webflow page using Swiper.js library. The slider should:
+  - Display images in a responsive carousel format
+  - Support touch/mouse swiping
+  - Include autoplay functionality
+  - Have navigation arrows and pagination dots
+  - Be properly styled to match the site's design theme
+  - Handle library loading timing correctly
+
+instructions: |
+  # Phase 1: Preparation
+
+  ## 1. Confirm Prerequisites
+  - Verify Webflow Designer is connected using designer tools
+  - Get the site ID (if not provided, use `mcp__webflow__sites_list`)
+  - Navigate to the target page using `mcp__webflow__de_page_tool`
+
+  ## 2. Plan the Implementation
+  - Identify where on the page the slider should be placed
+  - Determine parent element for slider insertion
+  - Choose images (use Unsplash or user-provided URLs)
+
+  # Phase 2: Create DOM Structure
+
+  ## 3. Build Slider Container and Elements
+  Use `mcp__webflow__element_builder` to create this structure in a SINGLE call (max 3 levels deep):
+
+  ```javascript
+  {
+    "parent_element_id": {component: "pageId", element: "parentElementId"},
+    "creation_position": "append", // or "prepend"
+    "element_schema": {
+      "type": "DOM",
+      "set_dom_config": {"dom_tag": "div"},
+      "set_attributes": {
+        "attributes": [
+          {"name": "id", "value": "food-slider"},
+          {"name": "class", "value": "swiper"}
+        ]
+      },
+      "set_style": {"style_names": ["slider-container"]}, // Create this style first if needed
+      "children": [
+        {
+          "type": "DOM",
+          "set_dom_config": {"dom_tag": "link"},
+          "set_attributes": {
+            "attributes": [
+              {"name": "rel", "value": "stylesheet"},
+              {"name": "href", "value": "https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"}
+            ]
+          }
+        },
+        {
+          "type": "DOM",
+          "set_dom_config": {"dom_tag": "script"},
+          "set_attributes": {
+            "attributes": [
+              {"name": "src", "value": "https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"}
+            ]
+          }
+        },
+        {
+          "type": "DOM",
+          "set_dom_config": {"dom_tag": "style"}
+          // Will add CSS content later
+        },
+        {
+          "type": "DOM",
+          "set_dom_config": {"dom_tag": "div"},
+          "set_attributes": {
+            "attributes": [{"name": "class", "value": "swiper-wrapper"}]
+          }
+        },
+        {
+          "type": "DOM",
+          "set_dom_config": {"dom_tag": "div"},
+          "set_attributes": {
+            "attributes": [{"name": "class", "value": "swiper-pagination"}]
+          }
+        },
+        {
+          "type": "DOM",
+          "set_dom_config": {"dom_tag": "div"},
+          "set_attributes": {
+            "attributes": [{"name": "class", "value": "swiper-button-prev"}]
+          }
+        },
+        {
+          "type": "DOM",
+          "set_dom_config": {"dom_tag": "div"},
+          "set_attributes": {
+            "attributes": [{"name": "class", "value": "swiper-button-next"}]
+          }
+        }
+      ]
+    }
+  }
+  ```
+
+  ## 4. Add Custom CSS to Style Element
+  After creating the structure, use `mcp__webflow__element_tool` to add CSS to the `<style>` element:
+  - Select the style element by its ID
+  - Use `set_text` action to add CSS rules for navigation buttons and pagination
+  - Match the site's design theme (colors, borders, shadows, etc.)
+
+  Example CSS for neobrutalist theme:
+  ```css
+  .swiper-button-next, .swiper-button-prev {
+    color: #000 !important;
+    background: #00F0FF;
+    border: 4px solid #000;
+    width: 50px;
+    height: 50px;
+    box-shadow: 6px 6px 0 #000;
+  }
+  .swiper-pagination-bullet-active {
+    background: #00F0FF !important;
+  }
+  ```
+
+  # Phase 3: Create Initialization JavaScript
+
+  ## 5. Write Pure JavaScript Custom Code
+  Use `mcp__webflow__add_inline_site_script` with this structure:
+
+  **Key Implementation Details:**
+  - Clear all site scripts first with `mcp__webflow__delete_all_site_scripts`
+  - Write JavaScript WITHOUT any HTML tags
+  - Use retry logic to wait for Swiper library to load
+  - Clear the wrapper before adding slides dynamically
+  - Initialize Swiper with proper configuration
+
+  **Example Code Structure:**
+  ```javascript
+  function initSlider() {
+    console.log('Slider initializing...');
+
+    // 1. Find slider elements
+    var slider = document.getElementById('your-slider-id');
+    if (!slider) {
+      console.error('Slider container not found');
+      return;
+    }
+
+    var wrapper = slider.querySelector('.swiper-wrapper');
+    if (!wrapper) {
+      console.error('Swiper wrapper not found');
+      return;
+    }
+
+    // 2. Clear existing content properly
+    while (wrapper.firstChild) {
+      wrapper.removeChild(wrapper.firstChild);
+    }
+
+    // 3. Create slides dynamically
+    var images = [
+      'https://images.unsplash.com/photo-1...',
+      // Add more image URLs
+    ];
+
+    for (var i = 0; i < images.length; i++) {
+      var slide = document.createElement('div');
+      slide.className = 'swiper-slide';
+
+      var img = document.createElement('img');
+      img.src = images[i];
+      img.alt = 'Slide ' + (i + 1);
+      img.style.cssText = 'width:100%;height:500px;object-fit:cover;display:block';
+
+      slide.appendChild(img);
+      wrapper.appendChild(slide);
+    }
+
+    // 4. Wait for Swiper library with retry logic
+    var attempts = 0;
+    var maxAttempts = 20;
+
+    var checkSwiper = function() {
+      attempts++;
+      console.log('Checking for Swiper (attempt ' + attempts + ')');
+
+      if (typeof Swiper !== 'undefined') {
+        console.log('Swiper found! Initializing...');
+
+        try {
+          var swiper = new Swiper('#your-slider-id', {
+            slidesPerView: 1,
+            spaceBetween: 0,
+            loop: true,
+            autoplay: {
+              delay: 3000,
+              disableOnInteraction: false
+            },
+            pagination: {
+              el: '.swiper-pagination',
+              clickable: true
+            },
+            navigation: {
+              nextEl: '.swiper-button-next',
+              prevEl: '.swiper-button-prev'
+            }
+          });
+
+          console.log('Swiper initialized successfully!', swiper);
+        } catch (e) {
+          console.error('Swiper initialization error:', e);
+        }
+      } else if (attempts < maxAttempts) {
+        setTimeout(checkSwiper, 200);
+      } else {
+        console.error('Swiper library not loaded after ' + maxAttempts + ' attempts');
+      }
+    };
+
+    setTimeout(checkSwiper, 100);
+  }
+
+  // Run on DOM ready
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initSlider);
+  } else {
+    initSlider();
+  }
+  ```
+
+  # Phase 4: Testing & Debugging
+
+  ## 6. Verify and Test
+  - Ask user to publish the site
+  - Check browser console for initialization logs
+  - Verify all console.log messages appear
+  - Test swiping, navigation arrows, and pagination
+  - Test autoplay functionality
+
+  ## 7. Common Issues and Fixes
+
+  **Issue: Slider not swiping**
+  - Check if Swiper library loaded (console should show "Swiper found!")
+  - Verify slider structure is correct (use `mcp__webflow__element_tool` to inspect)
+  - Ensure no duplicate/conflicting elements
+  - Check CSS isn't blocking pointer events
+
+  **Issue: Images not showing**
+  - Verify image URLs are accessible
+  - Check console for CORS errors
+  - Ensure img elements have correct src attributes
+  - Try different image sources
+
+  **Issue: "Swiper library not loaded"**
+  - Verify `<script src="...swiper...">` element exists
+  - Check network tab for 404 errors
+  - Increase retry attempts or delay
+  - Verify CDN URL is correct
+
+  **Issue: Styles not applying**
+  - Check `<style>` element has content
+  - Verify CSS selectors match Swiper's class names
+  - Use `!important` to override Swiper defaults
+  - Check for CSS syntax errors
+
+  # Best Practices
+
+  1. **Always use retry logic** when waiting for external libraries
+  2. **Log extensively** during development for debugging
+  3. **Clear wrapper properly** using removeChild loop, not innerHTML
+  4. **Use specific IDs** for slider containers to avoid conflicts
+  5. **Match design theme** by styling navigation and pagination
+  6. **Test on mobile** to ensure touch swiping works
+  7. **Validate image URLs** before adding to slider
+  8. **Handle errors gracefully** with try-catch blocks
+
+  # Customization Options
+
+  ## Swiper Configuration
+  You can customize the slider behavior by modifying the Swiper config:
+  - `slidesPerView`: Number of slides visible at once
+  - `spaceBetween`: Gap between slides in pixels
+  - `loop`: Enable infinite loop
+  - `autoplay.delay`: Milliseconds between auto-advance
+  - `speed`: Transition speed in milliseconds
+  - `effect`: 'slide', 'fade', 'cube', 'coverflow', 'flip'
+  - `direction`: 'horizontal' or 'vertical'
+
+  ## Styling Themes
+  Adapt the CSS based on the site's design:
+  - **Minimal**: Simple arrows, minimal borders, neutral colors
+  - **Neobrutalist**: Bold borders, offset shadows, bright colors
+  - **Modern**: Smooth transitions, subtle shadows, rounded corners
+  - **Glassmorphism**: Transparent backgrounds, blur effects
+
+  # Final Checklist
+
+  - [ ] Slider DOM structure created with all required elements
+  - [ ] Swiper CSS library loaded via `<link>` element
+  - [ ] Swiper JS library loaded via `<script>` element
+  - [ ] Custom CSS added to `<style>` element
+  - [ ] Pure JavaScript initialization code added to site
+  - [ ] Images dynamically created and appended to wrapper
+  - [ ] Swiper initialized with proper configuration
+  - [ ] Navigation arrows and pagination styled
+  - [ ] Console logs confirm successful initialization
+  - [ ] Slider works on published site (swiping, autoplay, navigation)

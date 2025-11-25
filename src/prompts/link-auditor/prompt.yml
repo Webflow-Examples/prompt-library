@@ -3,6 +3,14 @@ role: |
 context:
   goal: |
     Crawl a Webflow site to find all external and internal links. Check each link for issues, specifically for 404 (broken) errors and for insecure (HTTP) protocols. Propose a list of fixes to the user, and upon approval, apply the corrections to the pages and CMS items.
+prerequisites:
+  required:
+    - Webflow MCP server must be installed and running
+    - User must have Webflow Designer app running for page content updates
+    - Site must be accessible with appropriate permissions (read access for auditing, write access for fixing)
+  verification:
+    - "Before starting, verify MCP tools are available by running: mcp__webflow__sites_list"
+    - "If tools are not available, inform the user: 'Please ensure the Webflow MCP server is configured and connected to Claude.'"
 task:
   - Discover and select the target site.
   - Crawl all pages and CMS items to extract all links.
@@ -17,11 +25,45 @@ instructions:
     - The prompt will handle both links on static pages and links within CMS rich text fields.
     - Links that cannot be automatically fixed will be flagged for manual review.
     - For Designer tool operations (page content updates), the Webflow Designer MCP app must be running. If a timeout occurs, inform the user to launch the Designer app.
+    - Show progress indicators for large sites (e.g., "Scanning page 15/47...").
+    - For sites with 100+ pages, ask user if they want to continue or limit the scope.
+  error_handling:
+    mcp_tools_unavailable: "Error: Webflow MCP tools are not available. Please ensure the Webflow MCP server is installed, configured, and connected to Claude."
+    designer_app_timeout: "Error: Designer app timeout. Please launch Webflow Designer and try again."
+    permission_denied: "Error: Permission denied. Please check your site access permissions in Webflow."
+    rate_limited: "Warning: Rate limit reached. Pausing for 60 seconds before resuming..."
+    network_timeout: "Warning: Link validation timeout. Marking link as 'needs manual review'."
+    ssl_certificate_error: "Info: SSL certificate error detected. Marking link as 'needs manual review' with note about certificate issue."
+  link_parsing:
+    patterns:
+      - "Extract links from HTML in text nodes using pattern: <a href=\"([^\"]+)\""
+      - "For Link type elements, check node.link or node.href properties"
+      - "Parse both absolute URLs (http://, https://) and protocol-relative URLs (//domain.com)"
+    edge_cases:
+      - "Ignore internal anchors starting with # (same-page anchors)"
+      - "Include mailto: and tel: links in 'needs manual review' category"
+      - "Handle relative URLs by resolving against the page's base URL"
+      - "Detect and preserve query parameters and URL fragments"
+  link_validation:
+    method: "Use WebFetch tool or HTTP HEAD requests to check link status"
+    timeout: "Set 10-second timeout per link to avoid hanging"
+    redirects: "Follow HTTP redirects (maximum 3 redirects)"
+    http_to_https:
+      - "If link starts with http://, test the https:// version"
+      - "If HTTPS version returns 200 OK, mark as 'insecure' and propose fix"
+      - "If HTTPS version fails with SSL error, mark as 'needs manual review' with SSL note"
+      - "If HTTPS version returns 404/5xx, mark as 'needs manual review'"
+    status_codes:
+      - "200-299: Working link"
+      - "300-399: Follow redirect, validate final destination"
+      - "400-499: Broken link (flag for manual review)"
+      - "500-599: Server error (flag for manual review)"
+      - "Timeout/Network Error: Flag for manual review"
   tool_flow:
-    - 1. **Discovery**: Use `mcp_webflow_sites_list` to let the user select a site.
+    - 1. **Discovery**: Use `mcp__webflow__sites_list` to let the user select a site.
     - "2. **Crawling and Link Extraction (Read Phase - Data API)**:"
-    - "  - **Pages**: Get all pages with `mcp_webflow_pages_list`. For each page, get its content using `mcp_webflow_pages_get_content`. Parse the content to find all link elements, their URLs, and their unique node IDs. Store the mapping: `{pageId, nodeId, url, linkText}` for each link found. Note: Links may appear as `type: 'text'` nodes with HTML containing `<a>` tags, or as `type: 'Link'` elements. The node `id` field from the Data API can be used directly in Designer tools."
-    - "  - **CMS**: Get all collections with `mcp_webflow_collections_list`. For each collection, get all items using `mcp_webflow_collections_items_list_items`. For each item, iterate through its fields and parse any rich text content to find links."
+    - "  - **Pages**: Get all pages with `mcp__webflow__pages_list`. For each page, get its content using `mcp__webflow__pages_get_content`. Parse the content to find all link elements, their URLs, and their unique node IDs. Store the mapping: `{pageId, nodeId, url, linkText}` for each link found. Note: Links may appear as `type: 'text'` nodes with HTML containing `<a>` tags, or as `type: 'Link'` elements. The node `id` field from the Data API can be used directly in Designer tools."
+    - "  - **CMS**: Get all collections with `mcp__webflow__collections_list`. For each collection, get all items using `mcp__webflow__collections_items_list_items`. For each item, iterate through its fields and parse any rich text content to find links."
     - 3. **Validation**:
         - For each unique link found, make a network request to check its status.
         - If a link returns a 4xx or 5xx status code, it's "broken" and flagged for manual review.
@@ -32,10 +74,55 @@ instructions:
         - Present both lists to the user for approval.
     - "5. **Execution (Write Phase - Designer & Data APIs)**:"
     - "  - **Pages**: For links on static pages that need fixing:"
-    - "    1. Use `mcp_webflow_de_page_tool` with `switch_page` action to navigate to the target page (use the `pageId` from the crawling phase)."
-    - "    2. Use `mcp_webflow_element_tool` with `select_element` action, passing the ID object: `{component: pageId, element: nodeId}` where `pageId` is the page ID and `nodeId` is the node ID extracted from the Data API."
-    - "    3. Use `mcp_webflow_element_tool` with `set_link` action on the selected element, passing `linkType` (e.g., 'url', 'page', 'email') and `link` (the corrected URL or target)."
-    - "  - **CMS**: For links in CMS items, use `mcp_webflow_collections_items_update_items_live` to update the rich text field with the corrected link."
+    - "    1. Use `mcp__webflow__de_page_tool` with `switch_page` action to navigate to the target page (use the `pageId` from the crawling phase)."
+    - "    2. Use `mcp__webflow__element_tool` with `select_element` action, passing the ID object: `{component: pageId, element: nodeId}` where `pageId` is the page ID and `nodeId` is the node ID extracted from the Data API."
+    - "    3. Use `mcp__webflow__element_tool` with `set_link` action on the selected element, passing `linkType` (e.g., 'url', 'page', 'email') and `link` (the corrected URL or target)."
+    - "  - **CMS**: For links in CMS items, use `mcp__webflow__collections_items_update_items_live` to update the rich text field with the corrected link."
     - 6. **Reporting**:
         - Provide a summary of the number of links scanned, fixed, and flagged for manual review.
         - Display the final list of links that still need manual attention.
+  dry_run_format: |
+    Present proposed changes to the user in this format:
+
+    ## Link Audit Summary
+    - Total links scanned: X
+    - Working links: X
+    - Insecure links (HTTP): X
+    - Broken links: X
+    - Links needing manual review: X
+
+    ## Proposed Fixes (X changes)
+
+    ### Page: "About Us" (/about)
+    1. **Insecure Link**
+       - Current: http://example.com
+       - Proposed: https://example.com
+       - Location: Navigation link in header (Element ID: abc123)
+
+    ### CMS Item: "Blog Post Title"
+    2. **Insecure Link**
+       - Collection: Blog Posts
+       - Field: Body (Rich Text)
+       - Current: http://partner-site.com
+       - Proposed: https://partner-site.com
+
+    ## Links Needing Manual Review (X links)
+
+    1. **Broken Link (404)**
+       - URL: http://old-domain.com/page
+       - Location: Page "Services" (/services)
+       - Reason: Returns 404 Not Found
+
+    2. **SSL Certificate Error**
+       - URL: https://problematic-site.com
+       - Location: CMS Item "News Article" in News collection
+       - Reason: SSL certificate invalid or expired
+
+    3. **Non-HTTP Link**
+       - URL: mailto:contact@example.com
+       - Location: Page "Contact" (/contact)
+       - Reason: Email link - verify email address is current
+
+    ---
+
+    Would you like me to proceed with applying the X proposed fixes? (Type 'yes' to confirm)
