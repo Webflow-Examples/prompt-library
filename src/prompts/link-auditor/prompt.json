@@ -3,5 +3,5 @@
   "icon": "https://dhygzobemt712.cloudfront.net/Icons/Light/48px/DevLink.svg",
   "description": "Find and fix broken or insecure links across an entire site, including CMS content, to improve SEO and user experience.",
   "tags": ["designer", "webflow", "links", "seo", "audit", "cms", "automation"],
-  "href": "developers.webflow.com/mcp/prompts/link-auditor-and-fixer"
+  "href": "/mcp/prompts/link-auditor-and-fixer"
 }
