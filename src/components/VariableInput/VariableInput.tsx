@@ -34,14 +34,14 @@ export function VariableInput({
     <div className="mb-6">
       <label
         htmlFor={name}
-        className="block text-sm font-medium text-[#333] mb-2"
+        className="block text-sm font-medium text-foreground mb-2"
       >
         {schema.label}
-        {schema.required && <span className="text-[#146ef5] ml-1">*</span>}
+        {schema.required && <span className="text-primary ml-1">*</span>}
       </label>
 
       {schema.description && (
-        <p className="text-sm text-[#555] mb-3">{schema.description}</p>
+        <p className="text-sm text-muted-foreground mb-3">{schema.description}</p>
       )}
 
       {schema.type === "textarea" ? (
@@ -52,7 +52,7 @@ export function VariableInput({
           onChange={handleChange}
           placeholder={schema.placeholder}
           rows={4}
-          className="w-full px-4 py-3 rounded-[8px] border border-[#D8D8D8] bg-white text-[#333] text-sm leading-relaxed resize-y focus:outline-none focus:ring-2 focus:ring-[#146ef5] focus:border-transparent transition-all"
+          className="w-full px-4 py-3 rounded-[8px] border border-input bg-background text-foreground text-sm leading-relaxed resize-y focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all"
         />
       ) : (
         <input
@@ -62,7 +62,7 @@ export function VariableInput({
           value={value}
           onChange={handleChange}
           placeholder={schema.placeholder}
-          className="w-full px-4 py-3 rounded-[8px] border border-[#D8D8D8] bg-white text-[#333] text-sm focus:outline-none focus:ring-2 focus:ring-[#146ef5] focus:border-transparent transition-all"
+          className="w-full px-4 py-3 rounded-[8px] border border-input bg-background text-foreground text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all"
         />
       )}
     </div>

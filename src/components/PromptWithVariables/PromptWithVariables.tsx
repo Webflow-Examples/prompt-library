@@ -48,8 +48,8 @@ export function PromptWithVariables({
   return (
     <div>
       {hasVariables && (
-        <div className="bg-white rounded-[8px] shadow-[0_2px_4px_rgba(0,0,0,0.1)] border border-[#D8D8D8] p-6 mb-6">
-          <h2 className="text-xl font-semibold text-[#333] mb-4">
+        <div className="bg-card rounded-[8px] shadow-[0_2px_4px_rgba(0,0,0,0.1)] border border-border p-6 mb-6">
+          <h2 className="text-xl font-semibold text-card-foreground mb-4">
             Configure Prompt
           </h2>
           {Object.entries(variables).map(([name, schema]) => (
@@ -68,8 +68,8 @@ export function PromptWithVariables({
         <PromptActions promptText={formattedPrompt} />
       </div>
 
-      <div className="bg-white rounded-[8px] shadow-[0_2px_4px_rgba(0,0,0,0.1)] border border-[#D8D8D8] p-6">
-        <h2 className="text-xl font-semibold text-[#333] mb-4">Prompt</h2>
+      <div className="bg-card rounded-[8px] shadow-[0_2px_4px_rgba(0,0,0,0.1)] border border-border p-6">
+        <h2 className="text-xl font-semibold text-card-foreground mb-4">Prompt</h2>
         <CodeBlock code={formattedPrompt} language="text" />
       </div>
     </div>

@@ -85,8 +85,10 @@ export function PromptCard({ prompt, className }: PromptCardProps) {
       target="_top"
       rel="noopener noreferrer"
       className={cn(
-        "group relative flex flex-col rounded-[8px] bg-card p-5 pb-[60px] text-left shadow-[0_2px_4px_rgba(0,0,0,0.1)] transition-all duration-300 ease-in-out cursor-pointer no-underline border border-border",
-        "hover:shadow-[0_4px_8px_rgba(0,0,0,0.15)] hover:scale-[1.02]",
+        "group relative flex flex-col rounded-[4px] bg-card p-5 pb-[60px] text-left border border-border no-underline cursor-pointer",
+        "shadow-[0_1px_2px_0_rgba(8,8,8,0.20),0_4px_4px_0_rgba(8,8,8,0.08),inset_0_-6px_12px_0_rgba(8,8,8,0.04)]",
+        "transition-all duration-300 ease-[cubic-bezier(0.165,0.84,0.44,1)]",
+        "hover:shadow-[0_4px_8px_0_rgba(8,8,8,0.12),0_8px_16px_0_rgba(8,8,8,0.08),inset_0_-6px_12px_0_rgba(8,8,8,0.04)]",
         className
       )}
     >
@@ -110,14 +112,14 @@ export function PromptCard({ prompt, className }: PromptCardProps) {
             />
           </div>
         )}
-        <h3 className="m-0 text-[1.25rem] font-semibold text-card-foreground group-hover:text-[#146ef5] transition-colors">
+        <h3 className="m-0 text-[1.5rem] leading-[1.3] font-semibold tracking-[0.02em] text-card-foreground group-hover:text-primary transition-colors duration-200">
           {getTitle(prompt.id)}
         </h3>
       </div>
 
       {/* Card Body */}
       <div className="mt-2.5 flex-grow flex flex-col">
-        <p className="m-0 text-base leading-normal text-muted-foreground line-clamp-3">
+        <p className="m-0 text-base leading-[1.6] text-muted-foreground line-clamp-3">
           {prompt.description}
         </p>
       </div>
@@ -126,7 +128,7 @@ export function PromptCard({ prompt, className }: PromptCardProps) {
       {prompt.tags && prompt.tags.length > 0 && (
         <div className="flex flex-wrap gap-2 mt-4">
           {prompt.tags.includes("designer") && (
-            <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-md bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300 text-xs font-medium border border-purple-200 dark:border-purple-800/50">
+            <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-[4px] bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300 text-xs font-medium border border-purple-200 dark:border-purple-800/50">
               <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01" />
               </svg>
@@ -134,7 +136,7 @@ export function PromptCard({ prompt, className }: PromptCardProps) {
             </span>
           )}
           {prompt.tags.includes("mcp") && (
-            <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-md bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 text-xs font-medium border border-blue-200 dark:border-blue-800/50">
+            <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-[4px] bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 text-xs font-medium border border-blue-200 dark:border-blue-800/50">
               <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" />
               </svg>

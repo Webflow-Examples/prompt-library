@@ -21,7 +21,7 @@ function Command({
     <CommandPrimitive
       data-slot="command"
       className={cn(
-        "bg-popover text-popover-foreground flex h-full w-full flex-col overflow-hidden rounded-md",
+        "bg-popover text-popover-foreground flex h-full w-full flex-col overflow-hidden rounded-[4px]",
         className
       )}
       {...props}
@@ -67,19 +67,24 @@ function CommandInput({
   return (
     <div
       data-slot="command-input-wrapper"
-      className="flex h-10 items-center gap-2 px-6 py-4"
+      className="relative flex items-center"
     >
-      <SearchIcon className="size-4 shrink-0 opacity-50" />
-      <CommandPrimitive.Input
-        data-slot="command-input"
-        className={cn(
-          "placeholder:text-muted-foreground flex h-10 w-full rounded-[8px] bg-muted border border-border px-3 text-base text-foreground outline-none transition-all duration-200 ease-in-out",
-          "hover:border-[#146ef5] focus:border-[#146ef5] focus:shadow-[0_0_0_2px_rgba(20,110,245,0.2)]",
-          "disabled:cursor-not-allowed disabled:opacity-50",
-          className
-        )}
-        {...props}
-      />
+      <div className={cn(
+        "relative flex items-center w-full rounded-[4px] bg-muted border border-border",
+        "transition-all duration-300 ease-[cubic-bezier(0.165,0.84,0.44,1)]",
+        "hover:border-primary focus-within:border-primary focus-within:ring-2 focus-within:ring-primary/20"
+      )}>
+        <SearchIcon className="absolute left-4 size-5 shrink-0 text-muted-foreground" />
+        <CommandPrimitive.Input
+          data-slot="command-input"
+          className={cn(
+            "placeholder:text-muted-foreground flex h-12 w-full rounded-[4px] bg-transparent pl-12 pr-4 text-base text-foreground outline-none",
+            "disabled:cursor-not-allowed disabled:opacity-50",
+            className
+          )}
+          {...props}
+        />
+      </div>
     </div>
   );
 }
@@ -149,7 +154,7 @@ function CommandItem({
     <CommandPrimitive.Item
       data-slot="command-item"
       className={cn(
-        "data-[selected=true]:bg-accent data-[selected=true]:text-accent-foreground [&_svg:not([class*='text-'])]:text-muted-foreground relative flex cursor-default items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-hidden select-none data-[disabled=true]:pointer-events-none data-[disabled=true]:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
+        "data-[selected=true]:bg-accent data-[selected=true]:text-accent-foreground [&_svg:not([class*='text-'])]:text-muted-foreground relative flex cursor-default items-center gap-2 rounded-[4px] px-2 py-1.5 text-sm outline-hidden select-none data-[disabled=true]:pointer-events-none data-[disabled=true]:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
         className
       )}
       {...props}

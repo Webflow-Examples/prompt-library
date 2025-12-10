@@ -43,8 +43,8 @@ export function CodeBlock({ code, language = "text", className }: CodeBlockProps
           )}
         </button>
       </div>
-      <pre className="overflow-x-auto rounded-[8px] bg-[#f8f8f8] border border-[#D8D8D8] p-5 text-sm leading-relaxed font-mono max-h-[600px] overflow-y-auto">
-        <code className="text-[#333]">{code}</code>
+      <pre className="overflow-x-auto rounded-[8px] bg-muted border border-border p-5 text-sm leading-relaxed font-mono max-h-[600px] overflow-y-auto">
+        <code className="text-foreground">{code}</code>
       </pre>
     </div>
   );

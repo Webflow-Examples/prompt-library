@@ -1,0 +1,15 @@
+{
+  "id": "site-documentation-generator",
+  "icon": "https://dhygzobemt712.cloudfront.net/Icons/Light/48px/Docs.svg",
+  "description": "Audit an inherited Webflow site and create a DRAFT visual Style Guide page showing the design system through actual examples (real headings, buttons, colors, components) with specifications to help you understand and maintain the site consistently.",
+  "tags": [
+    "designer",
+    "webflow",
+    "documentation",
+    "audit",
+    "style-guide",
+    "design-system",
+    "onboarding"
+  ],
+  "href": "/mcp/prompts/site-documentation-generator"
+}

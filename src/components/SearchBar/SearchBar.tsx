@@ -39,20 +39,14 @@ export function Search({ prompts }: SearchProps) {
 
   return (
     <Command className="bg-background" shouldFilter={false}>
-      <CommandInput
-        placeholder="Search prompts..."
-        value={search}
-        onValueChange={setSearch}
-      />
-
       {/* Getting Started Callout */}
       {!search.trim() && (
-        <div className="w-full max-w-[800px] mx-auto px-4 pt-6 pb-6">
-          <div className="relative flex items-start gap-4 rounded-xl bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-blue-950/30 dark:to-indigo-950/30 p-6 border border-blue-100 dark:border-blue-900/50 shadow-sm">
+        <div className="w-full max-w-[1200px] mx-auto px-4 pt-8 pb-4">
+          <div className="relative flex items-start gap-4 rounded-[4px] bg-card p-6 border border-border shadow-[0_1px_2px_0_rgba(8,8,8,0.20),0_4px_4px_0_rgba(8,8,8,0.08)]">
             {/* Icon */}
-            <div className="flex-shrink-0 w-10 h-10 flex items-center justify-center rounded-lg bg-blue-100 dark:bg-blue-900/50">
+            <div className="flex-shrink-0 w-10 h-10 flex items-center justify-center rounded-[4px] bg-primary/10">
               <svg
-                className="w-6 h-6 text-blue-600 dark:text-blue-400"
+                className="w-6 h-6 text-primary"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -68,15 +62,15 @@ export function Search({ prompts }: SearchProps) {
 
             {/* Content */}
             <div className="flex-1 min-w-0">
-              <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-2">
+              <h3 className="text-[1.5rem] leading-[1.3] font-semibold tracking-[0.02em] text-card-foreground mb-2">
                 Welcome to the Prompt Library
               </h3>
-              <p className="text-sm text-gray-700 dark:text-gray-300 leading-relaxed mb-3">
+              <p className="text-base leading-[1.6] text-muted-foreground mb-3">
                 Browse our collection of ready-to-use prompts for the Webflow
-                MCP below, or use the search bar above to find prompts by name,
+                MCP below, or use the search bar to find prompts by name,
                 description, or tags.
               </p>
-              <div className="flex items-center gap-2 text-sm text-blue-600 dark:text-blue-400 font-medium">
+              <div className="flex items-center gap-2 text-sm text-primary font-medium">
                 <svg
                   className="w-4 h-4"
                   fill="none"
@@ -97,6 +91,15 @@ export function Search({ prompts }: SearchProps) {
         </div>
       )}
 
+      {/* Search Bar */}
+      <div className="w-full max-w-[1200px] mx-auto px-4 py-6">
+        <CommandInput
+          placeholder="Search prompts..."
+          value={search}
+          onValueChange={setSearch}
+        />
+      </div>
+
       <CommandList className="max-h-[calc(100vh-200px)]">
         {filteredPrompts.length === 0 ? (
           <CommandEmpty className="py-6 text-center text-base text-muted-foreground">
@@ -104,7 +107,7 @@ export function Search({ prompts }: SearchProps) {
           </CommandEmpty>
         ) : (
           <CommandGroup>
-            <div className="grid gap-5 py-[30px] w-full max-w-[800px] mx-auto md:grid-cols-2">
+            <div className="grid gap-8 pb-8 w-full max-w-[1200px] mx-auto px-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
               {filteredPrompts.map((prompt) => (
                 <PromptCard key={prompt.id} prompt={prompt} />
               ))}
