@@ -13,5 +13,6 @@
   "href": "/mcp/prompts/variables-refactor",
   "variables": {},
   "metadata": {},
-  "contentFile": "webflow-variables-refactor.md"
+  "contentFile": "webflow-variables-refactor.md",
+  "publish": true
 }

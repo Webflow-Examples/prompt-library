@@ -16,5 +16,6 @@
   "href": "/mcp/prompts/breakpoint-style-migrator",
   "variables": {},
   "metadata": {},
-  "contentFile": null
+  "contentFile": null,
+  "publish": true
 }

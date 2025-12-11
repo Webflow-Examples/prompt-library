@@ -11,5 +11,6 @@
     "design-system",
     "onboarding"
   ],
-  "href": "/mcp/prompts/site-documentation-generator"
+  "href": "/mcp/prompts/site-documentation-generator",
+  "publish": false
 }

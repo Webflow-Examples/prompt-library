@@ -1,0 +1,378 @@
+# Effective Prompting Guide for Webflow MCP
+
+MCP isn't an AI model—it's a protocol that lets AI models extend beyond their built-in knowledge by calling external tools. Think of it as a bridge: your AI agent can now reach out, grab real context, and take real actions instead of just generating text.
+
+Webflow's MCP server puts your site on the other side of that bridge. It exposes Webflow's capabilities as tools your agent can call—the same actions you'd take in the Designer or through the API. Describe a layout change, request a style audit, or plan a full design system refactor, and your agent can actually do it.
+
+But great results require great prompts. Clear context and smart structure make the difference between an interesting idea and a working outcome. This is especially true if you plan to repeat the task, share it with your team, or incorporate it into a larger workflow.
+
+This guide will show you how to write prompts that deliver accurate, reliable results for small and large tasks alike. Here's what's included:
+
+- What the Webflow MCP can do, and what your agent already knows
+- The basics of writing good prompts
+- A step-by-step workflow for creating prompts that work
+- Example prompts you can use and adapt
+- Common pitfalls to avoid
+
+Let's dive in.
+
+---
+
+## What You Can Do with the Webflow MCP
+
+Under the hood, the MCP uses two different types of Webflow APIs—and understanding the difference helps you know what's possible.
+
+### Data APIs (REST)
+
+These are standard REST APIs that work anytime, whether or not you have Webflow open. Use them to:
+
+- **Manage CMS content**: Create collections, define fields, add and update items
+- **Handle pages**: List pages, update metadata, manage SEO settings
+- **Work with sites**: List your sites, publish changes, manage domains
+- **Update localized content**: Manage translations across locales
+
+Data API operations happen in the background. You don't need the Designer open—your agent just makes the calls and reports back.
+
+### Designer APIs (Live Canvas)
+
+These are different. Designer APIs act like a user who's actually on the page, manipulating the canvas in real time. Use them to:
+
+- **Build and modify elements**: Add sections, divs, text blocks, images, buttons
+- **Manage styles**: Create styles, update properties, work across breakpoints
+- **Work with variables**: Create color, size, and font variables; organize collections
+- **Handle components**: Create instances, transform elements into components
+- **Organize assets**: Upload images, create folders, update alt text
+
+To use Designer tools, you'll need **two things running**:
+1. The Webflow Designer with your site open
+2. The MCP Bridge App connected
+
+Once connected, you can watch changes happen live on the canvas as your agent works. One important note: Designer APIs operate on elements in the page hierarchy, so **avoid clicking around while a task is running**—you might disrupt the agent's context.
+
+### What This Means for Your Prompts
+
+You don't need to specify which API type to use. The agent figures that out. But knowing the difference helps you understand:
+
+- **Data tasks** (CMS, pages, publishing) can run in the background
+- **Designer tasks** (elements, styles, variables) need the Designer open and update live
+
+## What Your Agent Already Knows
+
+The Webflow MCP comes with built-in guidance that teaches your agent how to use each tool correctly. This means you can write simpler prompts—the agent already understands:
+
+- **Which tools to use** for specific actions, and in what order
+- **CSS requirements**: Webflow needs longhand properties (e.g., `margin-top` not `margin`)
+- **Breakpoint behavior**: How styles cascade across device sizes
+- **Element rules**: Which elements can have children, attributes, or links
+- **Planning first**: The agent is instructed to plan before making changes
+
+Your prompts can focus on *what* you want to accomplish, not *how* to use the tools.
+
+## Anatomy of a Good Prompt
+
+Every effective prompt has the same basic parts. Here's what to include:
+
+### 1. Role
+
+Tell the agent who it should be. This sets the expertise level and perspective.
+
+```
+You are an expert Webflow developer specializing in design systems.
+```
+
+### 2. Task
+
+State what you want to accomplish in one clear sentence. The agent will figure out which tools to use.
+
+```
+Audit all styles in my site and identify any that use hardcoded
+color values instead of design variables.
+```
+
+### 3. Steps
+
+Structure your instructions as a logical sequence. Think of it like a recipe—describe *what* should happen in *what order*.
+
+For non-developers: this is called pseudocode. You're writing instructions in plain language, step by step, like you'd explain a process to a colleague.
+
+```
+1. Get all styles from the site
+2. For each style, check if it has color properties
+3. If a color property uses a hex/rgb value (not a variable), flag it
+4. Create a report grouped by color value
+5. Suggest variable names for each unique color
+```
+
+### 4. Output
+
+Tell the agent what you want back. A summary? A report? A list of changes?
+
+```
+Provide a summary table and recommendations for which colors
+should become variables.
+```
+
+### 5. Site ID
+
+The agent won't assume your site ID—you need to provide it. If you don't know it, ask the agent to list your sites first.
+
+```
+Site ID: 67a7e94359e1e87248710b42
+```
+
+---
+
+## Prompt Template
+
+Here's the basic structure. Copy it and fill in the blanks:
+
+```
+You are [ROLE].
+
+## Task
+[One clear sentence describing the goal]
+
+## Steps
+1. [First action]
+2. [Second action]
+3. [Continue as needed...]
+
+## Output
+[What the agent should produce or report]
+
+Site ID: [your-site-id]
+```
+
+---
+
+## Co-Writing Prompts with Your Agent
+
+Here's the best part: you don't have to write prompts alone.
+
+Your AI agent already knows what tools are available and how they work. That makes it the perfect co-author. Describe what you want to accomplish, and let the agent help you structure the prompt, fill in the steps, and catch things you might miss.
+
+This approach gives you two advantages: you get a well-structured prompt, and it's grounded in what the MCP can actually do. Here's the workflow:
+
+### Step 1: Explore What's Possible
+
+If you're unsure what the MCP can do, start by asking:
+
+```
+What can you do with the Webflow MCP tools?
+Give me a summary of the main capabilities.
+```
+
+### Step 2: Describe Your Goal
+
+Tell the agent what you want to accomplish, even if you're not sure how:
+
+```
+I want to migrate all my hardcoded colors to design variables.
+How would you approach this?
+```
+
+### Step 3: Ask for a Plan
+
+Have the agent think through the approach before doing anything:
+
+```
+Before making any changes, create a plan for how you'll approach
+this task. List each step and what you expect to find or do.
+```
+
+The agent is already instructed to plan before executing, but explicitly asking lets you review and approve the plan first.
+
+### Step 4: Refine Into a Reusable Prompt
+
+Once you have a working approach, ask the agent to formalize it:
+
+```
+That plan worked well. Now turn it into a reusable prompt I can
+run on other sites. Use the standard format with Role, Task,
+Steps, Output, and Site ID.
+```
+
+### Step 5: Test and Iterate
+
+Run the prompt on a test site. If something doesn't work, tell the agent what went wrong and ask it to adjust the prompt.
+
+---
+
+## Tip: Use Thinking to Plan, Simpler Models to Execute
+
+Many AI models support "extended thinking" or reasoning modes. While powerful, extended thinking can actually slow down execution for well-defined tasks. Here's a practical approach:
+
+### Use Extended Thinking For:
+- **Planning new prompts**: Figuring out the right sequence of steps
+- **Debugging**: When something isn't working and you need to understand why
+- **Complex analysis**: Evaluating options or making architectural decisions
+
+### Use Simpler/Faster Models For:
+- **Executing proven prompts**: Once your "recipe" works, a faster model can run it
+- **Repetitive operations**: Bulk updates, migrations, audits with known steps
+- **Well-defined procedures**: Tasks you've already optimized
+
+**The workflow**: Use a reasoning model to help you *craft* the prompt, test it, refine it—then switch to a faster model for ongoing execution. This gives you the best of both worlds: thoughtful planning and efficient execution.
+
+## Example Prompts
+
+### Simple: List All Variables
+
+```
+You are a Webflow developer.
+
+List all variable collections and their variables for my site.
+Format the output as a readable summary.
+
+Site ID: [your-site-id]
+```
+
+### Intermediate: Style Audit
+
+```
+You are an expert Webflow developer specializing in design systems.
+
+## Task
+Audit all styles in my site and create a report of color usage.
+
+## Steps
+1. Get all styles with their properties
+2. Extract color-related properties (background-color, color, border colors, etc.)
+3. Categorize each color as either:
+   - Using a variable (good)
+   - Using a hardcoded value (needs attention)
+4. Group hardcoded colors by their hex value
+5. For each unique hardcoded color, suggest a semantic variable name
+
+## Output
+Provide a summary table and recommendations for which colors
+should become variables.
+
+Site ID: [your-site-id]
+```
+
+### Advanced: Variable Migration
+
+```
+You are an expert Webflow developer specializing in design systems
+and automation.
+
+## Task
+Migrate all hardcoded color values to design variables.
+
+## Plan First
+Before making any changes, analyze the site and create a migration
+plan. Show me:
+- All unique colors currently in use
+- Proposed variable names for each
+- Which styles will be affected
+
+Wait for my approval before proceeding with changes.
+
+## Execution Steps (after approval)
+1. Create a variable collection called "Colors" if it doesn't exist
+2. For each unique color:
+   a. Create a color variable with the agreed name
+   b. Update all styles using that color to reference the variable
+3. Verify each style was updated correctly
+4. Report any failures with explanations
+
+## Output
+- Summary of variables created
+- List of styles updated
+- Any issues encountered
+
+Site ID: [your-site-id]
+```
+
+### CMS Operations
+
+```
+You are a Webflow CMS specialist.
+
+## Task
+Create a new CMS collection for team members.
+
+## Collection Structure
+- Name: "Team Members"
+- Fields:
+  - Name (required text)
+  - Role (text)
+  - Bio (rich text)
+  - Photo (image)
+  - Email (email)
+  - LinkedIn URL (link)
+  - Department (option: Engineering, Design, Marketing, Operations)
+  - Featured (switch for homepage display)
+
+## Steps
+1. Create the collection with the specified fields
+2. Verify the collection was created correctly
+3. Show me the final schema
+
+Site ID: [your-site-id]
+```
+
+## Best Practices Summary
+
+| Practice | Why It Matters |
+|----------|----------------|
+| Define a clear role | Sets expertise level and context |
+| Write sequential steps | Creates predictable, debuggable flows |
+| Ask for a plan first | Lets you review before execution |
+| Include your site ID | Required for all site operations |
+| Request verification | Ensures changes were successful |
+| Start with discovery | Understand current state before changing |
+
+## Common Pitfalls to Avoid
+
+### Don't: Specify Tool Names Unless Necessary
+
+The agent knows which tools to use. Instead of:
+```
+Use style_tool to get styles, then use variable_tool to create variables...
+```
+
+Just say:
+```
+Get all styles, then create variables for each unique color...
+```
+
+### Don't: Use CSS Shorthand
+
+When discussing styles, use longhand properties:
+```
+# Wrong
+margin: 20px
+
+# Right
+margin-top: 20px
+margin-right: 20px
+margin-bottom: 20px
+margin-left: 20px
+```
+
+### Don't: Forget to Provide Context
+
+If you're continuing a previous task, remind the agent:
+```
+Continuing from our earlier work on the color migration—
+now let's tackle the typography variables.
+```
+
+## Explore the Prompt Library
+
+Ready to see these principles in action? Our **[Prompt Library](/prompts)** contains tested prompts for common Webflow MCP tasks:
+
+- **Design System Management**: Variables, styles, and tokens
+- **Content Operations**: CMS collection management and bulk updates
+- **Site Audits**: Style consistency, accessibility, and SEO checks
+- **Component Building**: Creating and managing reusable components
+
+Each prompt follows the best practices in this guide. Use them directly or as templates for your own workflows.
+
+[Browse the Prompt Library →](/prompts)
+
+---
+
+Happy prompting!

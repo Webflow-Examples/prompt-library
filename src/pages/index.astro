@@ -5,7 +5,9 @@ import {Search} from '../components/SearchBar/SearchBar.tsx';
 
 // Load all prompt JSON files
 const promptModules = import.meta.glob('../prompts/**/prompt.json', { eager: true });
-const prompts = Object.values(promptModules).map((module: any) => module.default || module);
+const prompts = Object.values(promptModules)
+  .map((module: any) => module.default || module)
+  .filter((prompt: any) => prompt.publish !== false);
 ---
 
 <Layout>

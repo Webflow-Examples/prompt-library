@@ -1,6 +1,7 @@
 {
   "id": "slider-builder",
   "icon": "https://dhygzobemt712.cloudfront.net/Icons/Light/48px/Image.svg",
+  "publish": true,
   "description": "Build interactive image sliders/carousels using Swiper.js and Webflow Designer API with proper library loading and initialization",
   "tags": [
     "designer",

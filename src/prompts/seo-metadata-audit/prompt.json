@@ -6,5 +6,6 @@
   "href": "/mcp/prompts/SEO-metadata-auditor",
   "variables": {},
   "metadata": {},
-  "contentFile": "webflow-seo-metadata-auditor.md"
+  "contentFile": "webflow-seo-metadata-auditor.md",
+  "publish": true
 }
