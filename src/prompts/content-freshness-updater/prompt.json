@@ -1,0 +1,41 @@
+{
+  "id": "content-freshness-updater",
+  "icon": "https://dhygzobemt712.cloudfront.net/Icons/Light/48px/Clock.svg",
+  "description": "Update all blog posts containing outdated information about a specific topic with current 2025 data",
+  "tags": [
+    "content-maintenance",
+    "content-updates",
+    "data-refresh",
+    "cms-management",
+    "evergreen-content",
+    "webflow",
+    "cms"
+  ],
+  "href": "/mcp/prompts/content-freshness-updater",
+  "variables": {
+    "collectionName": {
+      "type": "text",
+      "label": "Collection Name",
+      "placeholder": "e.g., Blog Posts, Articles, Resources",
+      "description": "The name of the CMS collection to update",
+      "required": true
+    },
+    "topic": {
+      "type": "text",
+      "label": "Topic to Refresh",
+      "placeholder": "e.g., 'social media statistics', 'SEO best practices'",
+      "description": "The specific topic that needs current 2025 data",
+      "required": true
+    },
+    "outdatedDefinition": {
+      "type": "textarea",
+      "label": "Outdated Definition",
+      "placeholder": "e.g., 'Statistics from before 2024, deprecated tools, outdated best practices'",
+      "description": "What makes content 'outdated' for this topic (optional)",
+      "required": false
+    }
+  },
+  "metadata": {},
+  "contentFile": null,
+  "publish": true
+}

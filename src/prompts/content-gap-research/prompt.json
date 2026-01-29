@@ -1,0 +1,57 @@
+{
+  "id": "content-gap-research",
+  "icon": "https://dhygzobemt712.cloudfront.net/Icons/Light/48px/Research.svg",
+  "description": "Research content gaps for your industry compared to top 3 competitors and create draft blog posts to fill those gaps",
+  "tags": [
+    "content-strategy",
+    "seo",
+    "competitor-analysis",
+    "cms",
+    "blog-posts",
+    "research",
+    "webflow"
+  ],
+  "href": "/mcp/prompts/content-gap-research",
+  "variables": {
+    "clientIndustry": {
+      "type": "text",
+      "label": "Client Industry or Niche",
+      "placeholder": "e.g., sustainable fashion, B2B SaaS, local coffee shops",
+      "default": "B2B SaaS marketing",
+      "description": "Your client's industry or niche to research content opportunities",
+      "required": true
+    },
+    "collectionName": {
+      "type": "text",
+      "label": "Target CMS Collection Name",
+      "placeholder": "e.g., Blog Posts, Articles, Resources",
+      "default": "Blog Posts",
+      "description": "The Webflow CMS collection where blog post drafts will be created",
+      "required": true
+    },
+    "competitor1Url": {
+      "type": "text",
+      "label": "First Competitor Website URL (Optional)",
+      "placeholder": "https://competitor1.com",
+      "description": "First competitor website URL. If not provided, will be researched automatically.",
+      "required": false
+    },
+    "competitor2Url": {
+      "type": "text",
+      "label": "Second Competitor Website URL (Optional)",
+      "placeholder": "https://competitor2.com",
+      "description": "Second competitor website URL. If not provided, will be researched automatically.",
+      "required": false
+    },
+    "competitor3Url": {
+      "type": "text",
+      "label": "Third Competitor Website URL (Optional)",
+      "placeholder": "https://competitor3.com",
+      "description": "Third competitor website URL. If not provided, will be researched automatically.",
+      "required": false
+    }
+  },
+  "metadata": {},
+  "contentFile": null,
+  "publish": true
+}

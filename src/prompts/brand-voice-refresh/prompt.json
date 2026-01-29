@@ -1,0 +1,41 @@
+{
+  "id": "brand-voice-refresh",
+  "icon": "https://dhygzobemt712.cloudfront.net/Icons/Light/48px/Megaphone.svg",
+  "description": "Refresh all content in a collection to align with new brand voice guidelines",
+  "tags": [
+    "brand-voice",
+    "content-refresh",
+    "cms-updates",
+    "brand-alignment",
+    "content-management",
+    "webflow",
+    "cms"
+  ],
+  "href": "/mcp/prompts/brand-voice-refresh",
+  "variables": {
+    "collectionName": {
+      "type": "text",
+      "label": "Collection Name",
+      "placeholder": "e.g., Blog Posts, Product Descriptions, Case Studies",
+      "description": "The name of the CMS collection to refresh",
+      "required": true
+    },
+    "brandVoiceGuidelines": {
+      "type": "textarea",
+      "label": "Brand Voice Guidelines",
+      "placeholder": "Describe your new brand voice (tone, style, personality)...",
+      "description": "Paste or describe your new brand voice guidelines. Include tone (formal/casual), style preferences, personality traits, and any specific writing rules.",
+      "required": true
+    },
+    "preserveKeywords": {
+      "type": "textarea",
+      "label": "Keywords to Preserve",
+      "placeholder": "e.g., 'web design, responsive, user experience, San Francisco'",
+      "description": "SEO keywords that must be preserved in the content (optional, comma-separated)",
+      "required": false
+    }
+  },
+  "metadata": {},
+  "contentFile": null,
+  "publish": true
+}

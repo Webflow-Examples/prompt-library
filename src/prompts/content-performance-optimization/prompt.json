@@ -1,0 +1,35 @@
+{
+  "id": "content-performance-optimization",
+  "icon": "https://dhygzobemt712.cloudfront.net/Icons/Light/48px/Analytics.svg",
+  "description": "Analyze existing CMS content, identify underperforming topics, and suggest optimizations or new angles",
+  "tags": [
+    "content-optimization",
+    "cms-audit",
+    "seo",
+    "content-strategy",
+    "analytics",
+    "webflow"
+  ],
+  "href": "/mcp/prompts/content-performance-optimization",
+  "variables": {
+    "collectionName": {
+      "type": "text",
+      "label": "CMS Collection to Analyze",
+      "placeholder": "e.g., Blog Posts, Articles, Resources",
+      "default": "Blog Posts",
+      "description": "The Webflow CMS collection containing content to analyze and optimize",
+      "required": true
+    },
+    "performanceMetric": {
+      "type": "textarea",
+      "label": "Performance Criteria (Optional)",
+      "placeholder": "e.g., Outdated content (>2 years old), thin content (<500 words), missing keywords, low engagement indicators",
+      "default": "Identify content that is outdated (published more than 2 years ago), thin (<800 words), missing target keywords in title/headings, or lacks clear structure (insufficient headings, long paragraphs).",
+      "description": "Define what 'underperforming' means for your content. If not specified, will use standard content quality criteria.",
+      "required": false
+    }
+  },
+  "metadata": {},
+  "contentFile": null,
+  "publish": true
+}

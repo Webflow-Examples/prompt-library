@@ -1,0 +1,59 @@
+{
+  "id": "content-calendar-generator",
+  "icon": "https://dhygzobemt712.cloudfront.net/Icons/Light/48px/Calendar.svg",
+  "description": "Create a comprehensive 90-day content calendar with blog post drafts targeting specific keywords",
+  "tags": [
+    "content-calendar",
+    "content-strategy",
+    "seo",
+    "blog-posts",
+    "cms",
+    "planning",
+    "webflow"
+  ],
+  "href": "/mcp/prompts/content-calendar-generator",
+  "variables": {
+    "clientName": {
+      "type": "text",
+      "label": "Client Name",
+      "placeholder": "e.g., Acme Design Co",
+      "default": "Client",
+      "description": "Client name for context and personalization",
+      "required": true
+    },
+    "collectionName": {
+      "type": "text",
+      "label": "Target CMS Collection",
+      "placeholder": "e.g., Blog Posts, Articles, Resources",
+      "default": "Blog Posts",
+      "description": "The Webflow CMS collection where blog post drafts will be created",
+      "required": true
+    },
+    "targetKeywords": {
+      "type": "textarea",
+      "label": "Target Keywords or Themes",
+      "placeholder": "e.g., web design trends, responsive design, UX best practices, Webflow tutorials, design systems",
+      "default": "web design trends, responsive design, UX best practices, Webflow tutorials, design systems, accessibility standards",
+      "description": "Comma-separated list of target keywords or content themes to focus on throughout the 90-day calendar",
+      "required": true
+    },
+    "industryContext": {
+      "type": "textarea",
+      "label": "Industry Context or Goals (Optional)",
+      "placeholder": "e.g., B2B SaaS company focused on design teams. Goal: establish thought leadership, drive demo signups. Target audience: product designers and design managers.",
+      "description": "Additional context about industry, business goals, target audience, or content objectives",
+      "required": false
+    },
+    "postsPerWeek": {
+      "type": "text",
+      "label": "Posts Per Week (Optional)",
+      "placeholder": "e.g., 2",
+      "default": "2",
+      "description": "Desired number of blog posts per week. Default is 2 (approximately 26 posts over 90 days).",
+      "required": false
+    }
+  },
+  "metadata": {},
+  "contentFile": null,
+  "publish": true
+}

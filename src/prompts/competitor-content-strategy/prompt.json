@@ -1,0 +1,48 @@
+{
+  "id": "competitor-content-strategy",
+  "icon": "https://cdn.prod.website-files.com/6799cfc1ea1ff09e90edc2ac/67d83a8f732a8129eefea3d0_search-outline.svg",
+  "description": "Research competitor's content strategy, extract their blog topics, and create competitive content drafts to outrank them",
+  "tags": [
+    "competitor-analysis",
+    "competitive-intelligence",
+    "seo",
+    "content-strategy",
+    "research"
+  ],
+  "href": "https://developers.webflow.com/data/docs/mcp-server",
+  "variables": [
+    {
+      "name": "competitorName",
+      "label": "Competitor name",
+      "type": "text",
+      "required": true,
+      "placeholder": "e.g., Acme Corp"
+    },
+    {
+      "name": "competitorUrl",
+      "label": "Competitor website URL",
+      "type": "text",
+      "required": true,
+      "placeholder": "https://example.com"
+    },
+    {
+      "name": "collectionName",
+      "label": "Your CMS collection for new drafts",
+      "type": "text",
+      "required": true,
+      "placeholder": "e.g., Blog Posts"
+    },
+    {
+      "name": "targetKeywords",
+      "label": "Specific keywords to target (optional)",
+      "type": "text",
+      "required": false,
+      "placeholder": "e.g., best project management software"
+    }
+  ],
+  "metadata": {
+    "category": "Competitive Intelligence",
+    "difficulty": "intermediate",
+    "estimatedTime": "15-30 minutes"
+  }
+}

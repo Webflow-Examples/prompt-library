@@ -1,0 +1,41 @@
+{
+  "id": "content-performance-report",
+  "icon": "https://dhygzobemt712.cloudfront.net/Icons/Light/48px/Analytics.svg",
+  "description": "Generate comprehensive content performance report including publication frequency, draft vs published ratio, and content quality metrics",
+  "tags": [
+    "reporting",
+    "analytics",
+    "cms-audit",
+    "client-deliverables",
+    "content-metrics",
+    "webflow"
+  ],
+  "href": "/mcp/prompts/content-performance-report",
+  "variables": {
+    "collectionName": {
+      "type": "text",
+      "label": "Collection to Report On",
+      "placeholder": "e.g., Blog Posts, Case Studies, Products",
+      "description": "The name of the CMS collection you want to analyze and report on",
+      "required": true
+    },
+    "timeframe": {
+      "type": "text",
+      "label": "Reporting Period",
+      "placeholder": "e.g., last 30 days, Q4 2024, January 2025",
+      "default": "all time",
+      "description": "The time period for the report. Leave as 'all time' to analyze all content, or specify a period like 'last 30 days' or 'Q4 2024'",
+      "required": false
+    },
+    "clientName": {
+      "type": "text",
+      "label": "Client Name",
+      "placeholder": "e.g., Acme Corporation",
+      "description": "Client name to include in the report header for a professional, branded deliverable",
+      "required": false
+    }
+  },
+  "metadata": {},
+  "contentFile": null,
+  "publish": true
+}

@@ -1,0 +1,33 @@
+{
+  "id": "cms-schema-review",
+  "icon": "https://dhygzobemt712.cloudfront.net/Icons/Light/48px/Grid.svg",
+  "description": "Review CMS collection field structure and suggest schema improvements for better performance, maintainability, and content editor experience.",
+  "tags": [
+    "cms-optimization",
+    "database-design",
+    "performance",
+    "cms-audit",
+    "best-practices",
+    "webflow"
+  ],
+  "href": "/mcp/prompts/cms-schema-review",
+  "variables": {
+    "collectionName": {
+      "type": "text",
+      "label": "Collection Name",
+      "placeholder": "e.g., Blog Posts, Products, Team Members",
+      "description": "The name of the CMS collection to review for schema optimization opportunities.",
+      "required": true
+    },
+    "specificConcerns": {
+      "type": "textarea",
+      "label": "Specific Concerns (Optional)",
+      "placeholder": "e.g., Slow page load times, confusing field names, difficulty managing relationships",
+      "description": "Any specific performance or usability concerns you've noticed with this collection. Leave blank for a general comprehensive review.",
+      "required": false
+    }
+  },
+  "metadata": {},
+  "contentFile": null,
+  "publish": true
+}
