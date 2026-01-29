@@ -1,0 +1,72 @@
+{
+  "id": "figma-webflow-client-first",
+  "icon": "https://dhygzobemt712.cloudfront.net/Icons/Light/48px/Grid.svg",
+  "publish": true,
+  "description": "Translate a Figma design system into a Client-First-compliant Webflow foundation with proper variables, utility classes, and components using both Figma MCP and Webflow MCP servers",
+  "tags": [
+    "figma",
+    "webflow",
+    "client-first",
+    "design-system",
+    "migration",
+    "mcp",
+    "variables",
+    "components",
+    "designer",
+    "orchestration",
+    "finsweet"
+  ],
+  "href": "https://finsweet.com/client-first/docs",
+  "variables": {
+    "figmaFileKey": {
+      "type": "string",
+      "description": "Figma file key or URL containing the design system",
+      "required": true
+    },
+    "figmaNodeId": {
+      "type": "string",
+      "description": "Specific Figma node/frame ID to extract design system from (optional)",
+      "required": false
+    },
+    "webflowSiteId": {
+      "type": "string",
+      "description": "Target Webflow site ID where the system will be built",
+      "required": true
+    },
+    "scope": {
+      "type": "string",
+      "description": "Migration scope: 'full' (variables, utilities, components), 'variables-only', 'utilities-only', or 'components-only'",
+      "required": false,
+      "default": "full"
+    },
+    "includeStyleGuide": {
+      "type": "boolean",
+      "description": "Create a QA/style guide page for visual verification",
+      "required": false,
+      "default": true
+    }
+  },
+  "metadata": {
+    "difficulty": "advanced",
+    "estimatedTime": "30-60 minutes",
+    "prerequisites": [
+      "Figma MCP Server connected and authenticated",
+      "Webflow MCP Server connected and authenticated",
+      "Webflow Designer and companion app open",
+      "Target Webflow site accessible",
+      "Design system clearly defined in Figma"
+    ],
+    "outputs": [
+      "Client-First compliant Webflow variables (primitives + semantic tokens)",
+      "Client-First utility classes (color, typography, spacing)",
+      "Client-First components with proper naming conventions",
+      "Optional style guide page for QA verification",
+      "Migration report with compliance checklist"
+    ],
+    "references": [
+      "Client-First Naming Guide: .claude/agents/client-first-naming-compact.md",
+      "Client-First Full Documentation: .claude/agents/client-first-naming.md",
+      "Official Client-First Docs: https://finsweet.com/client-first/docs"
+    ]
+  }
+}

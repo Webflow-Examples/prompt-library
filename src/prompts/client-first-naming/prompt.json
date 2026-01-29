@@ -1,0 +1,31 @@
+{
+  "id": "client-first-naming",
+  "icon": "https://dhygzobemt712.cloudfront.net/Icons/Light/48px/Tag.svg",
+  "publish": true,
+  "description": "Comprehensive reference guide for Finsweet Client-First naming conventions covering utility classes, custom classes, variables, typography, and folder organization with validation rules",
+  "tags": [
+    "client-first",
+    "naming-convention",
+    "design-system",
+    "reference",
+    "best-practices",
+    "webflow",
+    "finsweet",
+    "css",
+    "classes",
+    "variables"
+  ],
+  "href": "https://finsweet.com/client-first/docs",
+  "metadata": {
+    "difficulty": "reference",
+    "type": "documentation",
+    "estimatedTime": "5-10 minutes to review",
+    "prerequisites": [
+      "Basic understanding of Webflow",
+      "Familiarity with CSS classes",
+      "Working knowledge of design systems"
+    ],
+    "source": "Official Finsweet Client-First Documentation",
+    "lastUpdated": "2026-01-29"
+  }
+}
